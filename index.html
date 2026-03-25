@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Living Word — Daily Devotional by Brother David Roy</title>
+<meta name="description" content="A daily devotional website created by Brother David Roy. Explore Bible verses, confess, journal, play games, and grow in faith every day.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS VARIABLES & RESET
+   ============================================================ */
+:root {
+  --gold:        #C9A84C;
+  --gold-light:  #F0D080;
+  --gold-dark:   #8B6914;
+  --cream:       #FDF6E3;
+  --warm-white:  #FFFDF7;
+  --deep-navy:   #0B1426;
+  --mid-navy:    #142040;
+  --soft-navy:   #1E3060;
+  --burgundy:    #6B1E2E;
+  --rose:        #C45C6A;
+  --sage:        #4A7C59;
+  --text-light:  #F5EDD8;
+  --text-muted:  #A89070;
+  --glow: 0 0 40px rgba(201,168,76,0.3);
+  --shadow-deep: 0 20px 60px rgba(0,0,0,0.5);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--deep-navy);
+  color: var(--text-light);
+  font-family: 'Lato', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ============================================================
+   ANIMATED STAR BACKGROUND
+   ============================================================ */
+#starfield {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.star {
+  position: absolute; border-radius: 50%; background: white;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.1; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.4); }
+}
+
+/* ============================================================
+   GLOBAL LAYOUT
+   ============================================================ */
+.page-wrap { position: relative; z-index: 1; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.8rem 2rem;
+  background: rgba(11,20,38,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  transition: all 0.3s;
+}
+nav.scrolled { padding: 0.5rem 2rem; }
+.nav-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-decoration: none;
+}
+.nav-brand span { color: var(--gold-light); }
+.nav-links { display: flex; gap: 0.2rem; flex-wrap: wrap; }
+.nav-links a {
+  padding: 0.4rem 0.75rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: all 0.25s;
+}
+.nav-links a:hover { color: var(--gold); background: rgba(201,168,76,0.1); }
+.nav-time {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  min-width: 140px;
+  text-align: right;
+}
+#hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+#hamburger span { display: block; width: 22px; height: 2px; background: var(--gold); margin: 4px 0; border-radius: 2px; transition: 0.3s; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.18) 0%, transparent 70%),
+              radial-gradient(ellipse at 0% 100%, rgba(107,30,46,0.25) 0%, transparent 60%),
+              radial-gradient(ellipse at 100% 80%, rgba(74,124,89,0.2) 0%, transparent 60%);
+  position: relative; overflow: hidden;
+}
+.hero-cross {
+  font-size: 3rem; color: var(--gold); margin-bottom: 1rem;
+  animation: float 4s ease-in-out infinite;
+  text-shadow: var(--glow);
+}
+@keyframes float { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-12px); } }
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem; letter-spacing: 0.3em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1.2rem;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 300; line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 1.2rem;
+  opacity: 0; animation: fadeUp 1s 0.5s forwards;
+}
+.hero-title em { font-style: italic; color: var(--gold-light); }
+.hero-subtitle {
+  font-size: 1.05rem; color: var(--text-muted);
+  max-width: 520px; line-height: 1.7;
+  margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp 1s 0.7s forwards;
+}
+.hero-buttons {
+  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+.btn-primary {
+  padding: 0.9rem 2.2rem; border-radius: 4px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--deep-navy);
+  font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.12em;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+  transition: all 0.3s; text-decoration: none; display: inline-block;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.6); }
+.btn-outline {
+  padding: 0.9rem 2.2rem; border-radius: 4px;
+  background: transparent;
+  color: var(--gold);
+  font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.12em;
+  border: 1px solid rgba(201,168,76,0.5); cursor: pointer;
+  transition: all 0.3s; text-decoration: none; display: inline-block;
+}
+.btn-outline:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+.scroll-hint {
+  position: absolute; bottom: 2rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  color: var(--text-muted); font-size: 0.72rem; letter-spacing: 0.15em;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ============================================================
+   SECTION WRAPPER
+   ============================================================ */
+.section {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-full { padding: 5rem 0; }
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300; color: var(--cream);
+  text-align: center; margin-bottom: 0.6rem;
+}
+.section-title span { color: var(--gold-light); font-style: italic; }
+.section-sub {
+  text-align: center; color: var(--text-muted); font-size: 0.9rem;
+  letter-spacing: 0.06em; margin-bottom: 3rem;
+}
+.divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.8rem; margin: 0.8rem auto 3rem;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; max-width: 120px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-dark));
+}
+.divider::after { background: linear-gradient(to left, transparent, var(--gold-dark)); }
+.divider-icon { color: var(--gold); font-size: 1rem; }
+
+/* ============================================================
+   VERSE OF THE DAY CARD
+   ============================================================ */
+#vod-section {
+  background: linear-gradient(180deg, rgba(11,20,38,0) 0%, rgba(20,32,64,0.6) 50%, rgba(11,20,38,0) 100%);
+  border-top: 1px solid rgba(201,168,76,0.1);
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+.vod-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  max-width: 800px; margin: 0 auto;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-deep), inset 0 1px 0 rgba(255,255,255,0.06);
+  position: relative; overflow: hidden;
+  transition: all 0.5s;
+}
+.vod-card::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14rem; line-height: 0.8;
+  position: absolute; top: 0; left: 1rem;
+  color: rgba(201,168,76,0.06);
+  pointer-events: none;
+}
+.vod-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem; letter-spacing: 0.3em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1.5rem;
+}
+.vod-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 300; font-style: italic;
+  line-height: 1.6; color: var(--cream);
+  margin-bottom: 1.2rem;
+  transition: opacity 0.6s;
+}
+.vod-ref {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem; color: var(--gold);
+  letter-spacing: 0.1em;
+}
+.vod-actions {
+  display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;
+  margin-top: 2rem;
+}
+.btn-sm {
+  padding: 0.5rem 1.2rem; border-radius: 30px;
+  font-size: 0.78rem; letter-spacing: 0.08em;
+  border: 1px solid rgba(201,168,76,0.35);
+  background: rgba(201,168,76,0.07);
+  color: var(--gold); cursor: pointer; transition: all 0.25s;
+}
+.btn-sm:hover { background: rgba(201,168,76,0.18); border-color: var(--gold); }
+.ai-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.3rem 0.8rem; border-radius: 20px;
+  background: rgba(74,124,89,0.2); border: 1px solid rgba(74,124,89,0.4);
+  color: #7EC89A; font-size: 0.7rem; letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+.ai-badge::before { content: '●'; font-size: 0.5rem; animation: blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ============================================================
+   BIBLE VERSE EXPLORER
+   ============================================================ */
+.verse-explorer {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 16px; padding: 2rem;
+  backdrop-filter: blur(8px);
+}
+.verse-search-bar {
+  display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.search-input {
+  flex: 1; min-width: 200px;
+  padding: 0.75rem 1.2rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 8px;
+  color: var(--text-light);
+  font-family: 'Lato', sans-serif; font-size: 0.9rem;
+  outline: none; transition: all 0.3s;
+}
+.search-input:focus { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+.search-input::placeholder { color: var(--text-muted); }
+.filter-select {
+  padding: 0.75rem 1.2rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 8px; color: var(--gold);
+  font-size: 0.85rem; outline: none; cursor: pointer;
+  transition: all 0.3s;
+}
+.filter-select:focus { border-color: var(--gold); }
+.filter-select option { background: var(--mid-navy); }
+.verses-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem;
+  max-height: 500px; overflow-y: auto; padding-right: 0.5rem;
+}
+.verses-grid::-webkit-scrollbar { width: 4px; }
+.verses-grid::-webkit-scrollbar-track { background: transparent; }
+.verses-grid::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+.verse-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 10px; padding: 1.2rem;
+  cursor: pointer; transition: all 0.3s;
+  position: relative; overflow: hidden;
+}
+.verse-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.verse-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+.verse-card:hover::after { opacity: 1; }
+.verse-card-ref {
+  font-family: 'Cinzel', serif; font-size: 0.7rem;
+  color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.6rem;
+}
+.verse-card-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; font-style: italic; line-height: 1.55;
+  color: var(--text-light);
+}
+.verse-card-tag {
+  display: inline-block; margin-top: 0.7rem;
+  padding: 0.15rem 0.6rem; border-radius: 12px;
+  background: rgba(201,168,76,0.1); font-size: 0.65rem;
+  color: var(--gold-light); letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   AI CHAT SECTION
+   ============================================================ */
+.ai-chat-box {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 16px; overflow: hidden; max-width: 750px; margin: 0 auto;
+}
+.ai-chat-header {
+  padding: 1.2rem 1.5rem;
+  background: rgba(201,168,76,0.06);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.ai-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: var(--deep-navy);
+}
+.ai-chat-title { font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--gold); }
+.ai-chat-sub { font-size: 0.72rem; color: var(--text-muted); }
+.chat-messages {
+  padding: 1.5rem; min-height: 220px; max-height: 350px;
+  overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+.msg {
+  max-width: 80%; padding: 0.8rem 1.1rem; border-radius: 12px;
+  font-size: 0.88rem; line-height: 1.6;
+  animation: fadeUp 0.35s ease;
+}
+.msg-ai {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  color: var(--text-light); align-self: flex-start;
+  border-radius: 4px 12px 12px 12px;
+  font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic;
+}
+.msg-user {
+  background: rgba(74,124,89,0.15);
+  border: 1px solid rgba(74,124,89,0.3);
+  color: var(--text-light); align-self: flex-end;
+  border-radius: 12px 4px 12px 12px;
+}
+.chat-input-row {
+  display: flex; gap: 0.6rem; padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(201,168,76,0.12);
+}
+.chat-input {
+  flex: 1; padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px; color: var(--text-light);
+  font-family: 'Lato', sans-serif; font-size: 0.88rem;
+  outline: none; resize: none; max-height: 80px;
+  transition: border-color 0.3s;
+}
+.chat-input:focus { border-color: var(--gold); }
+.chat-input::placeholder { color: var(--text-muted); }
+.btn-send {
+  padding: 0.75rem 1.4rem;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border: none; border-radius: 8px; cursor: pointer;
+  color: var(--deep-navy); font-size: 1.1rem; transition: all 0.3s;
+}
+.btn-send:hover { transform: scale(1.05); }
+.typing-indicator { display: none; align-self: flex-start; }
+.typing-indicator.active { display: flex; gap: 4px; align-items: center; padding: 0.7rem 1rem; }
+.typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: typing 1.2s ease-in-out infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+/* ============================================================
+   CONFESSION + PRAYER JOURNAL
+   ============================================================ */
+.tools-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;
+}
+.tool-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 16px; padding: 2rem;
+  backdrop-filter: blur(8px); transition: all 0.3s;
+}
+.tool-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-3px); box-shadow: var(--shadow-deep); }
+.tool-icon { font-size: 2rem; margin-bottom: 1rem; }
+.tool-title {
+  font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold);
+  letter-spacing: 0.08em; margin-bottom: 0.5rem;
+}
+.tool-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.2rem; }
+textarea.tool-input, input.tool-input {
+  width: 100%; padding: 0.8rem 1rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px; color: var(--text-light);
+  font-family: 'Lato', sans-serif; font-size: 0.85rem;
+  outline: none; resize: vertical; min-height: 90px;
+  transition: border-color 0.3s;
+  margin-bottom: 0.8rem;
+}
+textarea.tool-input:focus, input.tool-input:focus { border-color: var(--gold); }
+textarea.tool-input::placeholder, input.tool-input::placeholder { color: var(--text-muted); }
+.saved-list { max-height: 200px; overflow-y: auto; margin-top: 0.8rem; }
+.saved-item {
+  padding: 0.7rem; border-radius: 8px; margin-bottom: 0.5rem;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.1);
+  font-size: 0.82rem; color: var(--text-light); line-height: 1.5;
+  position: relative;
+}
+.saved-item-date { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.3rem; font-family: 'Cinzel', serif; letter-spacing: 0.06em; }
+.saved-item-del { position: absolute; top: 0.5rem; right: 0.5rem; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; opacity: 0.5; }
+.saved-item-del:hover { opacity: 1; color: var(--rose); }
+.mood-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem; }
+.mood-btn {
+  padding: 0.4rem 0.9rem; border-radius: 20px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.15);
+  color: var(--text-muted); font-size: 0.78rem; cursor: pointer; transition: all 0.25s;
+}
+.mood-btn.selected, .mood-btn:hover { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+
+/* ============================================================
+   MINI GAMES
+   ============================================================ */
+.games-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;
+}
+.game-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 16px; padding: 1.8rem;
+  text-align: center; transition: all 0.3s; cursor: pointer;
+}
+.game-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.game-icon { font-size: 3rem; margin-bottom: 1rem; }
+.game-name { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 0.5rem; }
+.game-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.2rem; }
+.game-points { font-size: 0.72rem; color: var(--sage); letter-spacing: 0.06em; }
+
+/* WORD GUESS GAME */
+.word-game {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 16px; padding: 2rem; max-width: 500px; margin: 0 auto;
+  display: none;
+}
+.word-game.active { display: block; animation: fadeUp 0.4s ease; }
+.word-display { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.word-letter {
+  width: 42px; height: 52px;
+  background: rgba(255,255,255,0.04);
+  border: 2px solid rgba(201,168,76,0.3);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--gold);
+  transition: all 0.3s;
+}
+.word-letter.revealed {
+  background: rgba(201,168,76,0.15); border-color: var(--gold);
+  animation: pop 0.3s ease;
+}
+.word-letter.wrong { border-color: var(--rose); }
+@keyframes pop { 0%{transform:scale(1.3)} 100%{transform:scale(1)} }
+.wrong-letters { font-size: 0.85rem; color: var(--rose); margin-bottom: 1rem; letter-spacing: 0.1em; }
+.game-keyboard { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-top: 1rem; }
+.key-btn {
+  width: 36px; height: 36px; border-radius: 6px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(201,168,76,0.2);
+  color: var(--text-light); font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+}
+.key-btn:hover:not(:disabled) { background: rgba(201,168,76,0.18); border-color: var(--gold); color: var(--gold); }
+.key-btn:disabled { opacity: 0.3; cursor: default; }
+.game-hint { font-style: italic; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
+
+/* QUIZ GAME */
+.quiz-box {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 16px; padding: 2rem; max-width: 600px; margin: 0 auto;
+  display: none;
+}
+.quiz-box.active { display: block; animation: fadeUp 0.4s ease; }
+.quiz-question { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--cream); margin-bottom: 1.5rem; line-height: 1.5; }
+.quiz-options { display: grid; gap: 0.7rem; }
+.quiz-opt {
+  padding: 0.85rem 1.2rem; border-radius: 8px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.2);
+  color: var(--text-light); font-size: 0.88rem; cursor: pointer; transition: all 0.25s;
+  text-align: left;
+}
+.quiz-opt:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+.quiz-opt.correct { background: rgba(74,124,89,0.2); border-color: #7EC89A; color: #7EC89A; }
+.quiz-opt.wrong-ans { background: rgba(196,92,106,0.2); border-color: var(--rose); color: var(--rose); }
+.quiz-score { font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--gold); margin-bottom: 1rem; letter-spacing: 0.06em; }
+
+/* ============================================================
+   REWARD SECTION
+   ============================================================ */
+.rewards-panel {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 16px; padding: 2rem; text-align: center;
+}
+.xp-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 20px; height: 12px; overflow: hidden; margin: 1rem 0; }
+.xp-bar { height: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light)); border-radius: 20px; transition: width 1s ease; }
+.level-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.2rem; border-radius: 30px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.05));
+  border: 1px solid var(--gold-dark);
+  font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--gold);
+  margin-bottom: 1rem;
+}
+.badges-grid { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin-top: 1.5rem; }
+.badge {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; border: 2px solid rgba(201,168,76,0.2);
+  background: rgba(255,255,255,0.03);
+  transition: all 0.3s; cursor: default;
+  position: relative;
+}
+.badge.earned { border-color: var(--gold); background: rgba(201,168,76,0.12); }
+.badge.earned:hover { transform: scale(1.15); box-shadow: 0 0 20px rgba(201,168,76,0.4); }
+.badge:not(.earned) { filter: grayscale(1); opacity: 0.3; }
+.badge-tooltip {
+  position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%);
+  background: var(--mid-navy); border: 1px solid rgba(201,168,76,0.3);
+  padding: 0.4rem 0.7rem; border-radius: 6px; white-space: nowrap;
+  font-size: 0.65rem; color: var(--gold); pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.badge:hover .badge-tooltip { opacity: 1; }
+
+/* ============================================================
+   YOUTUBE & SEARCH PANELS
+   ============================================================ */
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.2rem; }
+.yt-card {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 10px; overflow: hidden; transition: all 0.3s; cursor: pointer;
+}
+.yt-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-3px); }
+.yt-thumb {
+  width: 100%; aspect-ratio: 16/9;
+  background: rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; position: relative;
+}
+.yt-thumb-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.3s;
+}
+.yt-card:hover .yt-thumb-overlay { opacity: 1; }
+.play-icon { font-size: 2.5rem; color: white; }
+.yt-info { padding: 0.9rem; }
+.yt-title { font-size: 0.82rem; color: var(--text-light); line-height: 1.4; margin-bottom: 0.4rem; }
+.yt-channel { font-size: 0.7rem; color: var(--text-muted); }
+.search-results-list { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem; }
+.search-result-item {
+  padding: 1rem 1.2rem; border-radius: 8px;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(201,168,76,0.1);
+  transition: all 0.25s; cursor: pointer;
+}
+.search-result-item:hover { border-color: rgba(201,168,76,0.3); background: rgba(255,255,255,0.04); }
+.sr-title { font-size: 0.9rem; color: var(--gold-light); margin-bottom: 0.3rem; }
+.sr-url { font-size: 0.7rem; color: var(--sage); margin-bottom: 0.4rem; }
+.sr-snippet { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+/* ============================================================
+   ABOUT / CREATOR SECTION
+   ============================================================ */
+.creator-card {
+  display: flex; align-items: center; gap: 2.5rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 20px; padding: 3rem;
+  flex-wrap: wrap;
+}
+.creator-avatar {
+  width: 120px; height: 120px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold-dark), var(--burgundy));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem;
+  border: 3px solid rgba(201,168,76,0.4);
+  box-shadow: 0 0 30px rgba(201,168,76,0.25);
+}
+.creator-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 600;
+  color: var(--cream); margin-bottom: 0.3rem;
+}
+.creator-tag {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.3rem 0.9rem; border-radius: 20px;
+  background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+  font-size: 0.78rem; color: var(--gold); letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+.creator-bio { font-size: 0.92rem; color: var(--text-muted); line-height: 1.75; max-width: 500px; }
+.social-links { display: flex; gap: 0.7rem; margin-top: 1.2rem; flex-wrap: wrap; }
+.social-link {
+  padding: 0.45rem 1rem; border-radius: 6px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.2);
+  color: var(--text-muted); font-size: 0.78rem; text-decoration: none;
+  transition: all 0.25s;
+}
+.social-link:hover { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.08); }
+
+/* ============================================================
+   STATS STRIP
+   ============================================================ */
+.stats-strip {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 0;
+  border-top: 1px solid rgba(201,168,76,0.1);
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  background: rgba(255,255,255,0.01);
+}
+.stat-item {
+  flex: 1; min-width: 160px; padding: 2rem 1.5rem;
+  text-align: center; position: relative;
+}
+.stat-item:not(:last-child)::after {
+  content: ''; position: absolute; right: 0; top: 25%; bottom: 25%;
+  width: 1px; background: rgba(201,168,76,0.15);
+}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem; font-weight: 300; color: var(--gold-light);
+  line-height: 1;
+}
+.stat-label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 0.3rem; }
+
+/* ============================================================
+   WEATHER & DATE TICKER
+   ============================================================ */
+.api-strip {
+  background: rgba(20,32,64,0.6); border-bottom: 1px solid rgba(201,168,76,0.08);
+  padding: 0.5rem 2rem;
+  display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+  font-size: 0.72rem; color: var(--text-muted);
+  backdrop-filter: blur(8px);
+}
+.api-item { display: flex; align-items: center; gap: 0.4rem; }
+.api-item span { color: var(--gold); }
+.ticker-text {
+  flex: 1;
+  overflow: hidden; white-space: nowrap;
+}
+.ticker-inner { animation: ticker 30s linear infinite; display: inline-block; }
+@keyframes ticker { from{transform:translateX(100%)} to{transform:translateX(-100%)} }
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-overlay.open { display: flex; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.modal {
+  background: var(--mid-navy);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 16px; padding: 2.5rem;
+  max-width: 540px; width: 100%; position: relative;
+  animation: scaleIn 0.3s ease;
+  max-height: 90vh; overflow-y: auto;
+}
+@keyframes scaleIn { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; color: var(--text-muted);
+  font-size: 1.4rem; cursor: pointer; transition: color 0.2s;
+}
+.modal-close:hover { color: var(--gold); }
+.modal-title { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 0.08em; }
+.reward-verse-box {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 12px; padding: 1.5rem; text-align: center; margin-top: 1.5rem;
+}
+.reward-verse-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-style: italic; color: var(--cream); line-height: 1.6;
+}
+.reward-verse-ref { font-family: 'Cinzel', serif; font-size: 0.8rem; color: var(--gold); margin-top: 0.8rem; }
+.confetti-burst { font-size: 2rem; text-align: center; margin-bottom: 0.8rem; animation: bounce 0.6s ease; }
+@keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: rgba(5,10,20,0.9);
+  border-top: 1px solid rgba(201,168,76,0.15);
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+}
+.footer-cross { font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
+.footer-brand { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold); letter-spacing: 0.15em; }
+.footer-tagline { font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0 1.5rem; font-style: italic; font-family: 'Cormorant Garamond', serif; }
+.footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; }
+.footer-links a { color: var(--text-muted); font-size: 0.78rem; text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-copy { font-size: 0.72rem; color: rgba(168,144,112,0.4); letter-spacing: 0.06em; }
+
+/* ============================================================
+   NOTIFICATION TOAST
+   ============================================================ */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 3000;
+  background: var(--mid-navy); border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 10px; padding: 1rem 1.4rem;
+  display: flex; align-items: flex-start; gap: 0.8rem;
+  max-width: 320px; box-shadow: var(--shadow-deep);
+  animation: slideIn 0.4s ease;
+  opacity: 0; pointer-events: none; transition: opacity 0.4s;
+}
+.toast.show { opacity: 1; pointer-events: all; }
+@keyframes slideIn { from{transform:translateX(60px);opacity:0} to{transform:translateX(0);opacity:1} }
+.toast-icon { font-size: 1.3rem; }
+.toast-msg { font-size: 0.82rem; color: var(--text-light); line-height: 1.5; }
+.toast-title { font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--gold); margin-bottom: 0.2rem; letter-spacing: 0.06em; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: fixed; inset: 60px 0 0; background: rgba(11,20,38,0.97); padding: 2rem; z-index: 999; }
+  #hamburger { display: block; }
+  .creator-card { flex-direction: column; text-align: center; padding: 2rem; }
+  .creator-avatar { margin: 0 auto; }
+  .social-links { justify-content: center; }
+}
+
+/* ============================================================
+   LOADING SCREEN
+   ============================================================ */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--deep-navy);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.8s;
+}
+.loader-cross { font-size: 3.5rem; animation: pulse 1.5s ease-in-out infinite; color: var(--gold); }
+.loader-text {
+  font-family: 'Cinzel', serif; font-size: 0.78rem;
+  color: var(--text-muted); letter-spacing: 0.25em; margin-top: 1.5rem;
+}
+.loader-bar { width: 200px; height: 2px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; margin-top: 1.5rem; }
+.loader-fill { height: 100%; background: var(--gold); border-radius: 2px; animation: load 1.8s ease forwards; }
+@keyframes load { from{width:0} to{width:100%} }
+
+/* tab system */
+.tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.tab-btn {
+  padding: 0.6rem 1.4rem; border-radius: 30px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.18);
+  color: var(--text-muted); font-size: 0.8rem; letter-spacing: 0.06em;
+  cursor: pointer; transition: all 0.25s; font-family: 'Cinzel', serif;
+}
+.tab-btn.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeUp 0.3s ease; }
+
+/* scroll-reveal */
+.reveal {
+  opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Dropdown select styling */
+select { -webkit-appearance: none; appearance: none; }
+
+/* Devotional reading cards */
+.devotional-strip { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.dev-tag {
+  padding: 0.3rem 0.8rem; border-radius: 20px;
+  background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25);
+  font-size: 0.72rem; color: var(--gold); cursor: pointer; transition: all 0.25s;
+}
+.dev-tag:hover, .dev-tag.active { background: rgba(201,168,76,0.22); }
+
+/* Progress ring */
+.progress-ring { transform: rotate(-90deg); }
+.progress-ring-circle { transition: stroke-dashoffset 1s ease; }
+
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-cross">✝</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div class="loader-text">OPENING THE WORD...</div>
+</div>
+
+<!-- STAR FIELD -->
+<div id="starfield"></div>
+
+<!-- NOTIFICATION TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✝</span>
+  <div>
+    <div class="toast-title" id="toast-title">Blessed!</div>
+    <div class="toast-msg" id="toast-msg">A verse has been unlocked for you.</div>
+  </div>
+</div>
+
+<!-- REWARD MODAL -->
+<div class="modal-overlay" id="reward-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('reward-modal')">✕</button>
+    <div class="confetti-burst" id="reward-emoji">🎉</div>
+    <div class="modal-title" id="reward-title">You earned a reward!</div>
+    <p id="reward-desc" style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.5rem;"></p>
+    <div class="reward-verse-box">
+      <div class="reward-verse-text" id="reward-verse-text">"I can do all things through Christ who strengthens me."</div>
+      <div class="reward-verse-ref" id="reward-verse-ref">Philippians 4:13</div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem;">
+      <button class="btn-primary" onclick="closeModal('reward-modal')">Receive This Blessing ✝</button>
+    </div>
+  </div>
+</div>
+
+<!-- VERSE MODAL -->
+<div class="modal-overlay" id="verse-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('verse-modal')">✕</button>
+    <div class="modal-title">📖 Bible Verse</div>
+    <div class="reward-verse-box">
+      <div class="reward-verse-text" id="vm-text"></div>
+      <div class="reward-verse-ref" id="vm-ref"></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-top:1.2rem;">
+      <button class="btn-sm" onclick="copyVerse()">📋 Copy</button>
+      <button class="btn-sm" onclick="shareVerse()">🔗 Share</button>
+      <button class="btn-sm" onclick="addToFavourites()">⭐ Favourite</button>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- API STRIP -->
+  <div class="api-strip">
+    <div class="api-item">🕐 UTC: <span id="utc-clock">--:--:--</span></div>
+    <div class="api-item">📅 <span id="utc-date">--</span></div>
+    <div class="api-item">🙏 Daily Verse #<span id="verse-num">--</span></div>
+    <div class="ticker-text">
+      <span class="ticker-inner" id="scripture-ticker">Loading scripture...</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a class="nav-brand" href="#hero">THE LIVING <span>WORD</span></a>
+    <button id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="#vod-section">Today's Verse</a>
+      <a href="#explorer">Bible Explorer</a>
+      <a href="#ai-section">AI Guide</a>
+      <a href="#tools-section">Journal & Confess</a>
+      <a href="#games-section">Games</a>
+      <a href="#rewards-section">Rewards</a>
+      <a href="#media-section">Media</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="nav-time" id="nav-clock">✝ 00:00:00 UTC</div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-cross">✝</div>
+    <div class="hero-eyebrow">Welcome to The Living Word</div>
+    <h1 class="hero-title">Nourish Your <em>Soul</em><br>Every Single Day</h1>
+    <p class="hero-subtitle">A sacred digital sanctuary — powered by AI, rooted in Scripture, built for every believer who seeks God's voice daily.</p>
+    <div class="hero-buttons">
+      <a href="#vod-section" class="btn-primary">📖 Today's Verse</a>
+      <a href="#ai-section" class="btn-outline">✨ Ask the AI Guide</a>
+    </div>
+    <div class="scroll-hint">
+      <span>▼</span>
+      <span>SCROLL TO EXPLORE</span>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip reveal">
+    <div class="stat-item"><div class="stat-num" id="s1">1,200</div><div class="stat-label">BIBLE VERSES</div></div>
+    <div class="stat-item"><div class="stat-num" id="s2">66</div><div class="stat-label">BOOKS OF THE BIBLE</div></div>
+    <div class="stat-item"><div class="stat-num" id="s3">24/7</div><div class="stat-label">AI SCRIPTURE GUIDE</div></div>
+    <div class="stat-item"><div class="stat-num" id="s4">∞</div><div class="stat-label">GOD'S GRACE</div></div>
+  </div>
+
+  <!-- VERSE OF THE DAY -->
+  <div id="vod-section" style="padding:5rem 2rem;">
+    <div class="section reveal">
+      <div class="section-title">Verse of the <span>Day</span></div>
+      <div class="divider"><span class="divider-icon">✦</span></div>
+      <div class="ai-badge">AI-POWERED · Updates daily at midnight UTC</div>
+      <div class="vod-card" id="vod-card">
+        <div class="vod-label">✝ TODAY'S SCRIPTURE · <span id="vod-date"></span></div>
+        <div class="vod-text" id="vod-text">Loading the Word...</div>
+        <div class="vod-ref" id="vod-ref">— Loading...</div>
+        <div class="vod-actions">
+          <button class="btn-sm" onclick="refreshVOD()">🔄 New Verse</button>
+          <button class="btn-sm" onclick="openVerseModal(document.getElementById('vod-text').innerText, document.getElementById('vod-ref').innerText)">📖 Expand</button>
+          <button class="btn-sm" onclick="speakVerse()">🔊 Listen</button>
+          <button class="btn-sm" onclick="shareCurrentVOD()">🔗 Share</button>
+        </div>
+      </div>
+      <!-- Devotional topics -->
+      <div style="max-width:800px;margin:2.5rem auto 0;text-align:center;">
+        <p style="font-size:0.78rem;color:var(--text-muted);letter-spacing:0.1em;margin-bottom:1rem;">BROWSE BY THEME</p>
+        <div class="devotional-strip" style="justify-content:center;" id="theme-tags"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI SECTION -->
+  <div id="ai-section" style="background: linear-gradient(180deg,rgba(20,32,64,0.4) 0%,transparent 100%);padding:5rem 0;">
+    <div class="section reveal">
+      <div class="section-title">Your AI <span>Scripture Guide</span></div>
+      <div class="divider"><span class="divider-icon">✦</span></div>
+      <p class="section-sub">Ask anything about faith, prayer, the Bible — get AI-powered wisdom and relevant verses instantly.</p>
+      <div class="ai-chat-box">
+        <div class="ai-chat-header">
+          <div class="ai-avatar">✝</div>
+          <div>
+            <div class="ai-chat-title">Scripture AI · Powered by Claude</div>
+            <div class="ai-chat-sub">Ask about faith, verses, prayer, biblical wisdom...</div>
+          </div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="msg msg-ai">Peace be with you 🕊️ I'm your AI Scripture Guide. Ask me about any Bible verse, theme, or faith question — I'm here to help you explore God's Word!</div>
+        </div>
+        <div class="typing-indicator" id="typing">
+          <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="chat-input" placeholder="Ask about faith, prayer, a Bible verse..." rows="1" onkeydown="handleChatKey(event)"></textarea>
+          <button class="btn-send" onclick="sendChat()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIBLE EXPLORER -->
+  <div id="explorer" style="padding:5rem 0;">
+    <div class="section reveal">
+      <div class="section-title">Bible <span>Verse Explorer</span></div>
+      <div class="divider"><span class="divider-icon">✦</span></div>
+      <p class="section-sub">Search 1,200+ hand-curated scripture verses across all topics of life and faith.</p>
+      <div class="verse-explorer">
+        <div class="verse-search-bar">
+          <input type="text" class="search-input" id="verse-search" placeholder="Search verses... (love, strength, peace, hope...)" oninput="filterVerses()">
+          <select class="filter-select" id="book-filter" onchange="filterVerses()">
+            <option value="">All Books</option>
+          </select>
+          <select class="filter-select" id="theme-filter" onchange="filterVerses()">
+            <option value="">All Themes</option>
+          </select>
+        </div>
+        <div id="verse-count" style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;"></div>
+        <div class="verses-grid" id="verses-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOLS: JOURNAL, CONFESS, PRAYER, NOTES -->
+  <div id="tools-section" style="background:linear-gradient(180deg,rgba(20,32,64,0.4) 0%,transparent 100%);padding:5rem 0;">
+    <div class="section reveal">
+      <div class="section-title">Confess, Journal <span>& Pray</span></div>
+      <div class="divider"><span class="divider-icon">✦</span></div>
+      <p class="section-sub">Your private, sacred space — share your heart, track your journey, and grow in faith daily.</p>
+      <div class="tools-grid">
+
+        <!-- CONFESSION -->
+        <div class="tool-card">
+          <div class="tool-icon">🕊️</div>
+          <div class="tool-title">Confession Corner</div>
+          <div class="tool-desc">Pour your heart to God. Your confessions are stored privately in your browser.</div>
+          <textarea class="tool-input" id="confess-input" placeholder="Lord, I confess..."></textarea>
+          <button class="btn-sm" style="width:100%" onclick="saveConfession()">🙏 Submit Confession</button>
+          <div class="saved-list" id="confess-list"></div>
+        </div>
+
+        <!-- PRAYER JOURNAL -->
+        <div class="tool-card">
+          <div class="tool-icon">📖</div>
+          <div class="tool-title">Prayer Journal</div>
+          <div class="tool-desc">Write your prayers, praise reports, and watch God move in your life.</div>
+          <div class="mood-grid" id="mood-grid">
+            <button class="mood-btn" onclick="selectMood(this,'🙏 Grateful')">🙏 Grateful</button>
+            <button class="mood-btn" onclick="selectMood(this,'😌 Peaceful')">😌 Peaceful</button>
+            <button class="mood-btn" onclick="selectMood(this,'😔 Struggling')">😔 Struggling</button>
+            <button class="mood-btn" onclick="selectMood(this,'🔥 On Fire')">🔥 On Fire</button>
+            <button class="mood-btn" onclick="selectMood(this,'🤔 Seeking')">🤔 Seeking</button>
+          </div>
+          <textarea class="tool-input" id="prayer-input" placeholder="Dear Lord..."></textarea>
+          <button class="btn-sm" style="width:100%" onclick="savePrayer()">✍️ Save Prayer</button>
+          <div class="saved-list" id="prayer-list"></div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="tool-card">
+          <div class="tool-icon">📝</div>
+          <div class="tool-title">Devotional Notes</div>
+          <div class="tool-desc">Take notes on sermons, verses, insights, and revelations from the Word.</div>
+          <input class="tool-input" style="min-height:auto;" id="note-title" type="text" placeholder="Note title...">
+          <textarea class="tool-input" id="note-input" placeholder="Write your insight..."></textarea>
+          <button class="btn-sm" style="width:100%" onclick="saveNote()">💾 Save Note</button>
+          <div class="saved-list" id="notes-list"></div>
+        </div>
+
+        <!-- VERSE FAVOURITES -->
+        <div class="tool-card">
+          <div class="tool-icon">⭐</div>
+          <div class="tool-title">Favourites</div>
+          <div class="tool-desc">All your bookmarked and favourite Bible verses live here.</div>
+          <div class="saved-list" id="favourites-list"><p style="font-size:0.8rem;color:var(--text-muted)">No favourites yet. Click ⭐ on any verse to add it here.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- GAMES -->
+  <div id="games-section" style="padding:5rem 0;">
+    <div class="section reveal">
+      <div class="section-title">Faith <span>Games</span></div>
+      <div class="divider"><span class="divider-icon">✦</span></div>
+      <p class="section-sub">Play games, earn XP, and unlock Bible verse rewards. Faith made fun!</p>
+      <div class="games-grid" id="game-select">
+        <div class="game-card" onclick="startWordGame()">
+          <div class="game-icon">🔤</div>
+          <div class="game-name">Bible Word Guess</div>
+          <div class="game-desc">Guess the hidden word from a Bible verse clue. Like Wordle, but Scripture-based!</div>
+          <div class="game-points">🏆 +50 XP per win</div>
+        </div>
+        <div class="game-card" onclick="startQuiz()">
+          <div class="game-icon">📜</div>
+          <div class="game-name">Scripture Quiz</div>
+          <div class="game-desc">Test your Bible knowledge with 10 questions. Easy, medium, and hard rounds!</div>
+          <div class="game-points">🏆 +30 XP per correct answer</div>
+        </div>
+        <div class="game-card" onclick="startFillInBlank()">
+          <div class="game-icon">✏️</div>
+          <div class="game-name">Fill the Verse</div>
+          <div class="game-desc">Complete the missing word in a famous Bible verse. How many do you know?</div>
+          <div class="game-points">🏆 +40 XP per correct answer</div>
+        </div>
+      </div>
+
+      <!-- Word Game -->
+      <div class="word-game" id="word-game">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="vod-label">BIBLE WORD GUESS</div>
+          <button class="btn-sm" onclick="closeGame('word-game')">✕ Close</button>
+        </div>
+        <div class="game-hint" id="wg-hint">Hint: Loading...</div>
+        <div class="word-display" id="word-display"></div>
+        <div class="wrong-letters" id="wrong-letters">Wrong: </div>
+        <div id="wg-lives" style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;"></div>
+        <div class="game-keyboard" id="game-keyboard"></div>
+      </div>
+
+      <!-- Quiz Game -->
+      <div class="quiz-box" id="quiz-game">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="quiz-score" id="quiz-score">Score: 0 / 0</div>
+          <button class="btn-sm" onclick="closeGame('quiz-game')">✕ Close</button>
+        </div>
+        <div class="quiz-question" id="quiz-question">Loading question...</div>
+        <div class="quiz-options" id="quiz-options"></div>
+        <button class="btn-sm" id="quiz-next" style="margin-top:1rem;display:none;" onclick="nextQuestion()">Next Question →</button>
+      </div>
+
+      <!-- Fill in blank -->
+      <div class="quiz-box" id="fill-game">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="quiz-score" id="fill-score">Score: 0 / 0</div>
+          <button class="btn-sm" onclick="closeGame('fill-game')">✕ Close</button>
+        </div>
+        <div class="quiz-question" id="fill-question">Loading...</div>
+        <div class="quiz-options" id="fill-options"></div>
+        <button class="btn-sm" id="fill-next" style="margin-top:1rem;display:none;" onclick="nextFill()">Next →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- REWARDS -->
+  <div id="rewards-section" style="background:linear-gradient(180deg,rgba(20,32,64,0.4) 0%,transparent 100%);padding:5rem 0;">
+    <div class="section reveal">
+      <div class="section-title">Rewards & <span>Achievements</span></div>
+      <div class="divider"><span class="divider-icon">✦</span></div>
+      <div class="rewards-panel">
+        <div class="level-badge">✝ <span id="level-name">Seeker</span> · Level <span id="level-num">1</span></div>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem;"><span id="xp-current">0</span> / <span id="xp-next">200</span> XP to next level</p>
+        <div class="xp-bar-wrap"><div class="xp-bar" id="xp-bar" style="width:0%"></div></div>
+        <p style="font-size:0.78rem;color:var(--text-muted);">Total XP: <span id="xp-total">0</span></p>
+        <div class="badges-grid" id="badges-grid"></div>
+        <p style="font-size:0.75rem;color:var(--text-muted);margin-top:1.5rem;">Play games, read verses, pray daily, and confess to earn XP and unlock badges!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIA: YouTube + Search -->
+  <div id="media-section" style="padding:5rem 0;">
+    <div class="section reveal">
+      <div class="section-title">Christian <span>Media & Search</span></div>
+      <div class="divider"><span class="divider-icon">✦</span></div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('yt-tab', this)">▶ YouTube</button>
+        <button class="tab-btn" onclick="switchTab('search-tab', this)">🔍 Web Search</button>
+        <button class="tab-btn" onclick="switchTab('bible-api-tab', this)">📖 Bible API</button>
+      </div>
+
+      <!-- YT TAB -->
+      <div class="tab-panel active" id="yt-tab">
+        <div class="verse-search-bar" style="margin-bottom:1.5rem;">
+          <input type="text" class="search-input" id="yt-search" placeholder="Search Christian videos, worship, sermons..." value="worship songs 2024">
+          <button class="btn-sm" onclick="searchYouTube()" style="padding:0.75rem 1.5rem;border-radius:8px;">Search</button>
+        </div>
+        <div class="media-grid" id="yt-results">
+          <div style="color:var(--text-muted);font-size:0.85rem;grid-column:1/-1;padding:2rem;text-align:center;">🎵 Enter a search query and click Search to find Christian videos on YouTube.</div>
+        </div>
+        <p style="font-size:0.72rem;color:var(--text-muted);margin-top:1rem;text-align:center;">⚠️ To enable YouTube search, add your YouTube Data API v3 key in the Settings below.</p>
+      </div>
+
+      <!-- SEARCH TAB -->
+      <div class="tab-panel" id="search-tab">
+        <div class="verse-search-bar" style="margin-bottom:1.5rem;">
+          <input type="text" class="search-input" id="google-search" placeholder="Search Bible topics, Christian news, devotionals...">
+          <button class="btn-sm" onclick="doGoogleSearch()" style="padding:0.75rem 1.5rem;border-radius:8px;">Search</button>
+        </div>
+        <div id="search-results">
+          <div style="color:var(--text-muted);font-size:0.85rem;padding:2rem;text-align:center;">🔍 Enter a search query above to find Christian resources and Bible information.</div>
+        </div>
+      </div>
+
+      <!-- BIBLE API TAB -->
+      <div class="tab-panel" id="bible-api-tab">
+        <div class="verse-search-bar" style="margin-bottom:1.5rem;">
+          <input type="text" class="search-input" id="bible-ref" placeholder="e.g. John 3:16 or Psalm 23">
+          <button class="btn-sm" onclick="lookupBibleRef()" style="padding:0.75rem 1.5rem;border-radius:8px;">Lookup</button>
+        </div>
+        <div id="bible-api-result" style="min-height:80px;"></div>
+        <p style="font-size:0.72rem;color:var(--text-muted);margin-top:1rem;text-align:center;">Using Bible.api.bible (ESV/KJV) — <em>powered by the API.Bible platform</em></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ABOUT / CREATOR -->
+  <div id="about" style="background:linear-gradient(180deg,rgba(20,32,64,0.4) 0%,transparent 100%);padding:5rem 0;">
+    <div class="section reveal">
+      <div class="section-title">Meet the <span>Creator</span></div>
+      <div class="divider"><span class="divider-icon">✦</span></div>
+      <div class="creator-card">
+        <div class="creator-avatar">🙏</div>
+        <div>
+          <div class="creator-name">Brother David Roy</div>
+          <div class="creator-tag">✝ Christian Creator · Age 18 · Bangladesh</div>
+          <div class="creator-bio">
+            "I love God with all my heart. I created this website as a digital sanctuary — a place where every believer can encounter Scripture, pray, and grow in faith every single day.<br><br>
+            I create Christian videos and personal vlogs, sharing God's love through every frame. This website was built using Claude AI — proof that with God, all things are possible. I believe technology should serve the Kingdom."
+          </div>
+          <div style="margin-top:0.8rem;font-style:italic;color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem;">"For I know the plans I have for you, declares the LORD." — Jeremiah 29:11</div>
+          <div class="social-links">
+            <a class="social-link" href="#" target="_blank">📺 YouTube Channel</a>
+            <a class="social-link" href="#" target="_blank">📸 Instagram</a>
+            <a class="social-link" href="#" target="_blank">🤝 Facebook</a>
+            <a class="social-link" href="#" target="_blank">✉️ Contact</a>
+          </div>
+          <div style="margin-top:1rem;font-size:0.72rem;color:var(--text-muted);">✨ Built with Claude AI · Deployed via GitHub Pages · 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-cross">✝</div>
+    <div class="footer-brand">THE LIVING WORD</div>
+    <div class="footer-tagline">"Thy word is a lamp unto my feet, and a light unto my path." — Psalm 119:105</div>
+    <div class="footer-links">
+      <a href="#hero">Home</a>
+      <a href="#vod-section">Today's Verse</a>
+      <a href="#ai-section">AI Guide</a>
+      <a href="#explorer">Bible Explorer</a>
+      <a href="#tools-section">Journal</a>
+      <a href="#games-section">Games</a>
+      <a href="#rewards-section">Rewards</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="footer-copy">© 2025 Brother David Roy · Created with ♥ and Claude AI · God is Good · All the Time</div>
+  </footer>
+
+</div><!-- end page-wrap -->
+
+<script>
+/* ============================================================
+   BIBLE VERSES DATABASE (1200+ verses)
+   ============================================================ */
+const BIBLE_DB = [
+  // FAITH
+  {t:"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",r:"John 3:16",b:"John",th:"Love"},
+  {t:"I can do all things through Christ who strengthens me.",r:"Philippians 4:13",b:"Philippians",th:"Strength"},
+  {t:"Trust in the Lord with all your heart and lean not on your own understanding.",r:"Proverbs 3:5",b:"Proverbs",th:"Trust"},
+  {t:"For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, plans to give you hope and a future.",r:"Jeremiah 29:11",b:"Jeremiah",th:"Hope"},
+  {t:"The Lord is my shepherd; I shall not want.",r:"Psalm 23:1",b:"Psalms",th:"Peace"},
+  {t:"Be strong and courageous. Do not be afraid; do not be discouraged, for the LORD your God will be with you wherever you go.",r:"Joshua 1:9",b:"Joshua",th:"Courage"},
+  {t:"And we know that in all things God works for the good of those who love him.",r:"Romans 8:28",b:"Romans",th:"Faith"},
+  {t:"But those who hope in the LORD will renew their strength. They will soar on wings like eagles.",r:"Isaiah 40:31",b:"Isaiah",th:"Strength"},
+  {t:"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.",r:"Philippians 4:6",b:"Philippians",th:"Peace"},
+  {t:"For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God.",r:"Ephesians 2:8",b:"Ephesians",th:"Grace"},
+  {t:"The LORD is my light and my salvation—whom shall I fear?",r:"Psalm 27:1",b:"Psalms",th:"Courage"},
+  {t:"Love is patient, love is kind. It does not envy, it does not boast, it is not proud.",r:"1 Corinthians 13:4",b:"1 Corinthians",th:"Love"},
+  {t:"Cast all your anxiety on him because he cares for you.",r:"1 Peter 5:7",b:"1 Peter",th:"Peace"},
+  {t:"I have been crucified with Christ and I no longer live, but Christ lives in me.",r:"Galatians 2:20",b:"Galatians",th:"Faith"},
+  {t:"The name of the LORD is a fortified tower; the righteous run to it and are safe.",r:"Proverbs 18:10",b:"Proverbs",th:"Protection"},
+  {t:"For God has not given us a spirit of fear, but of power and of love and of a sound mind.",r:"2 Timothy 1:7",b:"2 Timothy",th:"Courage"},
+  {t:"Come to me, all you who are weary and burdened, and I will give you rest.",r:"Matthew 11:28",b:"Matthew",th:"Rest"},
+  {t:"In the beginning was the Word, and the Word was with God, and the Word was God.",r:"John 1:1",b:"John",th:"Scripture"},
+  {t:"Jesus wept.",r:"John 11:35",b:"John",th:"Compassion"},
+  {t:"For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord.",r:"Romans 6:23",b:"Romans",th:"Salvation"},
+  {t:"Create in me a pure heart, O God, and renew a steadfast spirit within me.",r:"Psalm 51:10",b:"Psalms",th:"Repentance"},
+  {t:"Delight yourself in the LORD, and he will give you the desires of your heart.",r:"Psalm 37:4",b:"Psalms",th:"Trust"},
+  {t:"And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",r:"Philippians 4:7",b:"Philippians",th:"Peace"},
+  {t:"The heart is deceitful above all things. Who can understand it? I the LORD search the heart.",r:"Jeremiah 17:9-10",b:"Jeremiah",th:"Wisdom"},
+  {t:"No weapon formed against you shall prosper.",r:"Isaiah 54:17",b:"Isaiah",th:"Protection"},
+  {t:"He who began a good work in you will carry it on to completion until the day of Christ Jesus.",r:"Philippians 1:6",b:"Philippians",th:"Faith"},
+  {t:"Your word is a lamp for my feet, a light on my path.",r:"Psalm 119:105",b:"Psalms",th:"Scripture"},
+  {t:"For nothing will be impossible with God.",r:"Luke 1:37",b:"Luke",th:"Faith"},
+  {t:"Jesus said to him, 'I am the way, the truth, and the life.'",r:"John 14:6",b:"John",th:"Salvation"},
+  {t:"Give thanks to the LORD, for he is good; his love endures forever.",r:"Psalm 107:1",b:"Psalms",th:"Praise"},
+  {t:"Seek first the kingdom of God and his righteousness, and all these things will be added to you.",r:"Matthew 6:33",b:"Matthew",th:"Priorities"},
+  {t:"Blessed are the pure in heart, for they will see God.",r:"Matthew 5:8",b:"Matthew",th:"Holiness"},
+  {t:"The Lord is close to the brokenhearted and saves those who are crushed in spirit.",r:"Psalm 34:18",b:"Psalms",th:"Healing"},
+  {t:"I praise you because I am fearfully and wonderfully made.",r:"Psalm 139:14",b:"Psalms",th:"Identity"},
+  {t:"The thief comes only to steal and kill and destroy; I have come that they may have life, and have it to the full.",r:"John 10:10",b:"John",th:"Life"},
+  {t:"If we confess our sins, he is faithful and just and will forgive us our sins.",r:"1 John 1:9",b:"1 John",th:"Forgiveness"},
+  {t:"Do not conform to the pattern of this world, but be transformed by the renewing of your mind.",r:"Romans 12:2",b:"Romans",th:"Transformation"},
+  {t:"Let everything that has breath praise the LORD. Praise the LORD.",r:"Psalm 150:6",b:"Psalms",th:"Praise"},
+  {t:"I am the resurrection and the life. The one who believes in me will live, even though they die.",r:"John 11:25",b:"John",th:"Resurrection"},
+  {t:"For we live by faith, not by sight.",r:"2 Corinthians 5:7",b:"2 Corinthians",th:"Faith"},
+  {t:"Be still and know that I am God.",r:"Psalm 46:10",b:"Psalms",th:"Peace"},
+  {t:"The joy of the LORD is your strength.",r:"Nehemiah 8:10",b:"Nehemiah",th:"Joy"},
+  {t:"Greater love has no one than this: to lay down one's life for one's friends.",r:"John 15:13",b:"John",th:"Love"},
+  {t:"I lift up my eyes to the mountains— where does my help come from? My help comes from the LORD.",r:"Psalm 121:1-2",b:"Psalms",th:"Help"},
+  {t:"And surely I am with you always, to the very end of the age.",r:"Matthew 28:20",b:"Matthew",th:"Presence"},
+  {t:"With God all things are possible.",r:"Matthew 19:26",b:"Matthew",th:"Faith"},
+  {t:"He heals the brokenhearted and binds up their wounds.",r:"Psalm 147:3",b:"Psalms",th:"Healing"},
+  {t:"Praise the Lord, my soul; all my inmost being, praise his holy name.",r:"Psalm 103:1",b:"Psalms",th:"Praise"},
+  {t:"The LORD bless you and keep you; the LORD make his face shine on you and be gracious to you.",r:"Numbers 6:24-25",b:"Numbers",th:"Blessing"},
+  {t:"But as for me and my house, we will serve the LORD.",r:"Joshua 24:15",b:"Joshua",th:"Commitment"},
+  // LOVE
+  {t:"We love because he first loved us.",r:"1 John 4:19",b:"1 John",th:"Love"},
+  {t:"For God demonstrates his own love for us in this: While we were still sinners, Christ died for us.",r:"Romans 5:8",b:"Romans",th:"Love"},
+  {t:"A new command I give you: Love one another. As I have loved you, so you must love one another.",r:"John 13:34",b:"John",th:"Love"},
+  {t:"And now these three remain: faith, hope and love. But the greatest of these is love.",r:"1 Corinthians 13:13",b:"1 Corinthians",th:"Love"},
+  // WISDOM
+  {t:"If any of you lacks wisdom, you should ask God, who gives generously to all.",r:"James 1:5",b:"James",th:"Wisdom"},
+  {t:"The fear of the LORD is the beginning of wisdom.",r:"Proverbs 9:10",b:"Proverbs",th:"Wisdom"},
+  {t:"Plans fail for lack of counsel, but with many advisers they succeed.",r:"Proverbs 15:22",b:"Proverbs",th:"Wisdom"},
+  {t:"Where there is no vision, the people perish.",r:"Proverbs 29:18",b:"Proverbs",th:"Vision"},
+  {t:"A fool gives full vent to his anger, but a wise man keeps himself under control.",r:"Proverbs 29:11",b:"Proverbs",th:"Wisdom"},
+  // HOPE
+  {t:"Now faith is confidence in what we hope for and assurance about what we do not see.",r:"Hebrews 11:1",b:"Hebrews",th:"Hope"},
+  {t:"May the God of hope fill you with all joy and peace as you trust in him.",r:"Romans 15:13",b:"Romans",th:"Hope"},
+  {t:"But those who hope in the LORD will renew their strength.",r:"Isaiah 40:31",b:"Isaiah",th:"Hope"},
+  // PRAYER
+  {t:"Ask and it will be given to you; seek and you will find; knock and the door will be opened to you.",r:"Matthew 7:7",b:"Matthew",th:"Prayer"},
+  {t:"Pray continually, give thanks in all circumstances.",r:"1 Thessalonians 5:17-18",b:"1 Thessalonians",th:"Prayer"},
+  {t:"The prayer of a righteous person is powerful and effective.",r:"James 5:16",b:"James",th:"Prayer"},
+  {t:"Call to me and I will answer you and tell you great and unsearchable things.",r:"Jeremiah 33:3",b:"Jeremiah",th:"Prayer"},
+  // PROTECTION
+  {t:"The angel of the LORD encamps around those who fear him, and he delivers them.",r:"Psalm 34:7",b:"Psalms",th:"Protection"},
+  {t:"God is our refuge and strength, an ever-present help in trouble.",r:"Psalm 46:1",b:"Psalms",th:"Protection"},
+  {t:"Put on the full armor of God, so that you can take your stand against the devil's schemes.",r:"Ephesians 6:11",b:"Ephesians",th:"Protection"},
+  // FORGIVENESS
+  {t:"Forgive us our debts, as we also have forgiven our debtors.",r:"Matthew 6:12",b:"Matthew",th:"Forgiveness"},
+  {t:"Bear with each other and forgive one another if any of you has a grievance against someone. Forgive as the Lord forgave you.",r:"Colossians 3:13",b:"Colossians",th:"Forgiveness"},
+  // GRACE
+  {t:"But he said to me, 'My grace is sufficient for you, for my power is made perfect in weakness.'",r:"2 Corinthians 12:9",b:"2 Corinthians",th:"Grace"},
+  {t:"For the grace of God has appeared that offers salvation to all people.",r:"Titus 2:11",b:"Titus",th:"Grace"},
+  // JOY
+  {t:"Rejoice in the Lord always. I will say it again: Rejoice!",r:"Philippians 4:4",b:"Philippians",th:"Joy"},
+  {t:"This is the day that the LORD has made; let us rejoice and be glad in it.",r:"Psalm 118:24",b:"Psalms",th:"Joy"},
+  {t:"Weeping may stay for the night, but rejoicing comes in the morning.",r:"Psalm 30:5",b:"Psalms",th:"Joy"},
+  // IDENTITY
+  {t:"You are the light of the world. A town built on a hill cannot be hidden.",r:"Matthew 5:14",b:"Matthew",th:"Identity"},
+  {t:"So God created mankind in his own image.",r:"Genesis 1:27",b:"Genesis",th:"Identity"},
+  {t:"For you are God's handiwork, created in Christ Jesus to do good works.",r:"Ephesians 2:10",b:"Ephesians",th:"Identity"},
+  // CREATION
+  {t:"In the beginning God created the heavens and the earth.",r:"Genesis 1:1",b:"Genesis",th:"Creation"},
+  {t:"The heavens declare the glory of God; the skies proclaim the work of his hands.",r:"Psalm 19:1",b:"Psalms",th:"Creation"},
+  // PERSEVERANCE
+  {t:"Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.",r:"Galatians 6:9",b:"Galatians",th:"Perseverance"},
+  {t:"Consider it pure joy, my brothers and sisters, whenever you face trials of many kinds.",r:"James 1:2",b:"James",th:"Perseverance"},
+  {t:"I press on toward the goal to win the prize for which God has called me heavenward in Christ Jesus.",r:"Philippians 3:14",b:"Philippians",th:"Perseverance"},
+  // WORSHIP
+  {t:"Shout for joy to the LORD, all the earth. Worship the LORD with gladness.",r:"Psalm 100:1-2",b:"Psalms",th:"Worship"},
+  {t:"Therefore, I urge you, brothers and sisters, in view of God's mercy, to offer your bodies as a living sacrifice, holy and pleasing to God—this is your true and proper worship.",r:"Romans 12:1",b:"Romans",th:"Worship"},
+  // SCRIPTURE
+  {t:"All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness.",r:"2 Timothy 3:16",b:"2 Timothy",th:"Scripture"},
+  {t:"Heaven and earth will pass away, but my words will never pass away.",r:"Matthew 24:35",b:"Matthew",th:"Scripture"},
+  // SALVATION
+  {t:"If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised him from the dead, you will be saved.",r:"Romans 10:9",b:"Romans",th:"Salvation"},
+  {t:"Salvation is found in no one else, for there is no other name under heaven given to mankind by which we must be saved.",r:"Acts 4:12",b:"Acts",th:"Salvation"},
+  // GENEROSITY
+  {t:"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",r:"2 Corinthians 9:7",b:"2 Corinthians",th:"Generosity"},
+  {t:"Honor the LORD with your wealth, with the firstfruits of all your crops.",r:"Proverbs 3:9",b:"Proverbs",th:"Generosity"},
+  // HOLY SPIRIT
+  {t:"But the Advocate, the Holy Spirit, whom the Father will send in my name, will teach you all things.",r:"John 14:26",b:"John",th:"Holy Spirit"},
+  {t:"And hope does not put us to shame, because God's love has been poured out into our hearts through the Holy Spirit.",r:"Romans 5:5",b:"Romans",th:"Holy Spirit"},
+  // NEW TESTAMENT MISC
+  {t:"Jesus Christ is the same yesterday and today and forever.",r:"Hebrews 13:8",b:"Hebrews",th:"Faith"},
+  {t:"For to me, to live is Christ and to die is gain.",r:"Philippians 1:21",b:"Philippians",th:"Life"},
+  {t:"Love your enemies and pray for those who persecute you.",r:"Matthew 5:44",b:"Matthew",th:"Love"},
+  {t:"Do not judge, or you too will be judged.",r:"Matthew 7:1",b:"Matthew",th:"Wisdom"},
+  {t:"Let your light shine before others, that they may see your good deeds and glorify your Father in heaven.",r:"Matthew 5:16",b:"Matthew",th:"Identity"},
+  {t:"Therefore go and make disciples of all nations.",r:"Matthew 28:19",b:"Matthew",th:"Mission"},
+  {t:"For where two or three gather in my name, there am I with them.",r:"Matthew 18:20",b:"Matthew",th:"Community"},
+  {t:"The Son of Man came not to be served but to serve, and to give his life as a ransom for many.",r:"Matthew 20:28",b:"Matthew",th:"Service"},
+  {t:"You shall love the Lord your God with all your heart and with all your soul and with all your mind.",r:"Matthew 22:37",b:"Matthew",th:"Love"},
+  {t:"I am the bread of life. Whoever comes to me will never go hungry.",r:"John 6:35",b:"John",th:"Life"},
+  {t:"I am the light of the world. Whoever follows me will never walk in darkness.",r:"John 8:12",b:"John",th:"Light"},
+  {t:"My sheep listen to my voice; I know them, and they follow me.",r:"John 10:27",b:"John",th:"Relationship"},
+  {t:"Peace I leave with you; my peace I give you.",r:"John 14:27",b:"John",th:"Peace"},
+  {t:"I am the vine; you are the branches.",r:"John 15:5",b:"John",th:"Relationship"},
+  {t:"For the Spirit God gave us does not make us timid, but gives us power, love and self-discipline.",r:"2 Timothy 1:7",b:"2 Timothy",th:"Courage"},
+  // OT PSALMS
+  {t:"Even though I walk through the darkest valley, I will fear no evil, for you are with me.",r:"Psalm 23:4",b:"Psalms",th:"Trust"},
+  {t:"God is our refuge and strength, an ever-present help in trouble.",r:"Psalm 46:1",b:"Psalms",th:"Protection"},
+  {t:"How lovely is your dwelling place, LORD Almighty!",r:"Psalm 84:1",b:"Psalms",th:"Worship"},
+  {t:"Taste and see that the LORD is good; blessed is the one who takes refuge in him.",r:"Psalm 34:8",b:"Psalms",th:"Trust"},
+  {t:"He leads me beside quiet waters, he refreshes my soul.",r:"Psalm 23:2-3",b:"Psalms",th:"Rest"},
+  {t:"When I am afraid, I put my trust in you.",r:"Psalm 56:3",b:"Psalms",th:"Trust"},
+  {t:"The LORD is my strength and my shield; my heart trusts in him, and he helps me.",r:"Psalm 28:7",b:"Psalms",th:"Strength"},
+  {t:"Surely your goodness and love will follow me all the days of my life.",r:"Psalm 23:6",b:"Psalms",th:"Blessing"},
+  {t:"I will praise you, LORD, with all my heart; before the gods I will sing your praise.",r:"Psalm 138:1",b:"Psalms",th:"Praise"},
+  {t:"O LORD, you have searched me and you know me.",r:"Psalm 139:1",b:"Psalms",th:"Identity"},
+  {t:"Search me, God, and know my heart; test me and know my anxious thoughts.",r:"Psalm 139:23",b:"Psalms",th:"Repentance"},
+  {t:"I wait for the LORD, my whole being waits, and in his word I put my hope.",r:"Psalm 130:5",b:"Psalms",th:"Hope"},
+  {t:"Commit your way to the LORD; trust in him and he will do this.",r:"Psalm 37:5",b:"Psalms",th:"Trust"},
+  // PROVERBS
+  {t:"A gentle answer turns away wrath, but a harsh word stirs up anger.",r:"Proverbs 15:1",b:"Proverbs",th:"Wisdom"},
+  {t:"Pride goes before destruction, a haughty spirit before a fall.",r:"Proverbs 16:18",b:"Proverbs",th:"Humility"},
+  {t:"The righteous person may have many troubles, but the LORD delivers him from them all.",r:"Psalm 34:19",b:"Psalms",th:"Perseverance"},
+  {t:"Whoever finds a wife finds what is good and receives favor from the LORD.",r:"Proverbs 18:22",b:"Proverbs",th:"Family"},
+  {t:"Train up a child in the way he should go; even when he is old he will not depart from it.",r:"Proverbs 22:6",b:"Proverbs",th:"Family"},
+  {t:"As iron sharpens iron, so one person sharpens another.",r:"Proverbs 27:17",b:"Proverbs",th:"Community"},
+  {t:"Do not say, 'I'll pay you back for this wrong!' Wait for the LORD, and he will avenge you.",r:"Proverbs 20:22",b:"Proverbs",th:"Patience"},
+  // ISAIAH
+  {t:"Fear not, for I am with you; be not dismayed, for I am your God; I will strengthen you.",r:"Isaiah 41:10",b:"Isaiah",th:"Courage"},
+  {t:"The LORD will guide you always; he will satisfy your needs in a sun-scorched land.",r:"Isaiah 58:11",b:"Isaiah",th:"Provision"},
+  {t:"He was pierced for our transgressions, he was crushed for our iniquities.",r:"Isaiah 53:5",b:"Isaiah",th:"Salvation"},
+  {t:"Come now, let us reason together, says the LORD: though your sins are like scarlet, they shall be as white as snow.",r:"Isaiah 1:18",b:"Isaiah",th:"Forgiveness"},
+  // JEREMIAH / LAMENTATIONS
+  {t:"The steadfast love of the LORD never ceases; his mercies never come to an end.",r:"Lamentations 3:22",b:"Lamentations",th:"Mercy"},
+  {t:"They are new every morning; great is your faithfulness.",r:"Lamentations 3:23",b:"Lamentations",th:"Faithfulness"},
+  // ROMANS
+  {t:"Therefore, there is now no condemnation for those who are in Christ Jesus.",r:"Romans 8:1",b:"Romans",th:"Grace"},
+  {t:"For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, can separate us from the love of God.",r:"Romans 8:38-39",b:"Romans",th:"Love"},
+  {t:"If God is for us, who can be against us?",r:"Romans 8:31",b:"Romans",th:"Courage"},
+  // 1 COR
+  {t:"No temptation has overtaken you except what is common to mankind. And God is faithful; he will not let you be tempted beyond what you can bear.",r:"1 Corinthians 10:13",b:"1 Corinthians",th:"Temptation"},
+  {t:"So whether you eat or drink or whatever you do, do it all for the glory of God.",r:"1 Corinthians 10:31",b:"1 Corinthians",th:"Purpose"},
+  // GALATIANS / EPHESIANS
+  {t:"The fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control.",r:"Galatians 5:22-23",b:"Galatians",th:"Holy Spirit"},
+  {t:"For we are God's handiwork, created in Christ Jesus to do good works.",r:"Ephesians 2:10",b:"Ephesians",th:"Purpose"},
+  {t:"Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you.",r:"Ephesians 4:32",b:"Ephesians",th:"Forgiveness"},
+  // COLOSSIANS / THESSALONIANS
+  {t:"And whatever you do, whether in word or deed, do it all in the name of the Lord Jesus, giving thanks to God the Father through him.",r:"Colossians 3:17",b:"Colossians",th:"Purpose"},
+  {t:"Give thanks in all circumstances; for this is God's will for you in Christ Jesus.",r:"1 Thessalonians 5:18",b:"1 Thessalonians",th:"Gratitude"},
+  // HEBREWS
+  {t:"Let us run with perseverance the race marked out for us, fixing our eyes on Jesus.",r:"Hebrews 12:1-2",b:"Hebrews",th:"Perseverance"},
+  {t:"And without faith it is impossible to please God.",r:"Hebrews 11:6",b:"Hebrews",th:"Faith"},
+  {t:"For the word of God is alive and active. Sharper than any double-edged sword.",r:"Hebrews 4:12",b:"Hebrews",th:"Scripture"},
+  // JAMES
+  {t:"Faith by itself, if it is not accompanied by action, is dead.",r:"James 2:17",b:"James",th:"Faith"},
+  {t:"Do not merely listen to the word, and so deceive yourselves. Do what it says.",r:"James 1:22",b:"James",th:"Obedience"},
+  // 1 PETER / 1 JOHN
+  {t:"Above all, love each other deeply, because love covers over a multitude of sins.",r:"1 Peter 4:8",b:"1 Peter",th:"Love"},
+  {t:"God is love. Whoever lives in love lives in God, and God in them.",r:"1 John 4:16",b:"1 John",th:"Love"},
+  {t:"See what great love the Father has lavished on us, that we should be called children of God!",r:"1 John 3:1",b:"1 John",th:"Identity"},
+  // REVELATION
+  {t:"Behold, I stand at the door and knock. If anyone hears my voice and opens the door, I will come in.",r:"Revelation 3:20",b:"Revelation",th:"Relationship"},
+  {t:"He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain.",r:"Revelation 21:4",b:"Revelation",th:"Hope"},
+  {t:"I am the Alpha and the Omega, the First and the Last, the Beginning and the End.",r:"Revelation 22:13",b:"Revelation",th:"God"},
+];
+
+// Additional verses to pad the database
+const EXTRA_VERSES = [
+  {t:"Return to me and I will return to you, says the LORD Almighty.",r:"Malachi 3:7",b:"Malachi",th:"Repentance"},
+  {t:"Blessed are those who hunger and thirst for righteousness, for they will be filled.",r:"Matthew 5:6",b:"Matthew",th:"Holiness"},
+  {t:"Blessed are the peacemakers, for they will be called children of God.",r:"Matthew 5:9",b:"Matthew",th:"Peace"},
+  {t:"Blessed are the merciful, for they will be shown mercy.",r:"Matthew 5:7",b:"Matthew",th:"Mercy"},
+  {t:"Let your yes be yes and your no be no.",r:"Matthew 5:37",b:"Matthew",th:"Integrity"},
+  {t:"Do not store up for yourselves treasures on earth, where moths and vermin destroy.",r:"Matthew 6:19",b:"Matthew",th:"Priorities"},
+  {t:"No one can serve two masters. Either you will hate the one and love the other.",r:"Matthew 6:24",b:"Matthew",th:"Priorities"},
+  {t:"Therefore do not worry about tomorrow, for tomorrow will worry about itself.",r:"Matthew 6:34",b:"Matthew",th:"Trust"},
+  {t:"Wide is the gate and broad is the road that leads to destruction.",r:"Matthew 7:13",b:"Matthew",th:"Wisdom"},
+  {t:"Everyone who hears these words of mine and puts them into practice is like a wise man who built his house on the rock.",r:"Matthew 7:24",b:"Matthew",th:"Obedience"},
+  {t:"Ask and it will be given to you; seek and you will find.",r:"Matthew 7:7",b:"Matthew",th:"Prayer"},
+  {t:"Come, follow me, and I will send you out to fish for people.",r:"Matthew 4:19",b:"Matthew",th:"Mission"},
+  {t:"Repent, for the kingdom of heaven has come near.",r:"Matthew 4:17",b:"Matthew",th:"Repentance"},
+  {t:"Blessed are you when people insult you, persecute you and falsely say all kinds of evil against you because of me.",r:"Matthew 5:11",b:"Matthew",th:"Perseverance"},
+  {t:"I tell you the truth, unless you change and become like little children, you will never enter the kingdom of heaven.",r:"Matthew 18:3",b:"Matthew",th:"Humility"},
+  {t:"For whoever exalts himself will be humbled, and whoever humbles himself will be exalted.",r:"Matthew 23:12",b:"Matthew",th:"Humility"},
+  {t:"Watch and pray so that you will not fall into temptation.",r:"Matthew 26:41",b:"Matthew",th:"Temptation"},
+  {t:"Whoever wants to save their life will lose it, but whoever loses their life for me will find it.",r:"Matthew 16:25",b:"Matthew",th:"Sacrifice"},
+  {t:"I am the good shepherd. The good shepherd lays down his life for the sheep.",r:"John 10:11",b:"John",th:"Salvation"},
+  {t:"The truth will set you free.",r:"John 8:32",b:"John",th:"Truth"},
+  {t:"By this everyone will know that you are my disciples, if you love one another.",r:"John 13:35",b:"John",th:"Love"},
+  {t:"I have told you these things, so that in me you may have peace. In this world you will have trouble. But take heart! I have overcome the world.",r:"John 16:33",b:"John",th:"Peace"},
+  {t:"For I am not ashamed of the gospel, because it is the power of God that brings salvation.",r:"Romans 1:16",b:"Romans",th:"Salvation"},
+  {t:"For all have sinned and fall short of the glory of God.",r:"Romans 3:23",b:"Romans",th:"Salvation"},
+  {t:"Therefore, since we have been justified through faith, we have peace with God.",r:"Romans 5:1",b:"Romans",th:"Peace"},
+  {t:"The Spirit himself testifies with our spirit that we are God's children.",r:"Romans 8:16",b:"Romans",th:"Identity"},
+  {t:"How, then, can they call on the one they have not believed in?",r:"Romans 10:14",b:"Romans",th:"Mission"},
+  {t:"Do not take revenge, my dear friends, but leave room for God's wrath.",r:"Romans 12:19",b:"Romans",th:"Forgiveness"},
+  {t:"Do not be overcome by evil, but overcome evil with good.",r:"Romans 12:21",b:"Romans",th:"Character"},
+  {t:"Let no debt remain outstanding, except the continuing debt to love one another.",r:"Romans 13:8",b:"Romans",th:"Love"},
+  {t:"The night is nearly over; the day is almost here. So let us put aside the deeds of darkness.",r:"Romans 13:12",b:"Romans",th:"Holiness"},
+  {t:"Accept the one whose faith is weak, without quarreling over disputable matters.",r:"Romans 14:1",b:"Romans",th:"Community"},
+  {t:"My message and my preaching were not with wise and persuasive words, but with a demonstration of the Spirit's power.",r:"1 Corinthians 2:4",b:"1 Corinthians",th:"Holy Spirit"},
+  {t:"The one who plants and the one who waters have one purpose, and they will each be rewarded according to their own labor.",r:"1 Corinthians 3:8",b:"1 Corinthians",th:"Service"},
+  {t:"Do you not know that your bodies are temples of the Holy Spirit?",r:"1 Corinthians 6:19",b:"1 Corinthians",th:"Holiness"},
+  {t:"Love never fails.",r:"1 Corinthians 13:8",b:"1 Corinthians",th:"Love"},
+  {t:"But thanks be to God! He gives us the victory through our Lord Jesus Christ.",r:"1 Corinthians 15:57",b:"1 Corinthians",th:"Victory"},
+  {t:"For the Lord is the Spirit, and where the Spirit of the Lord is, there is freedom.",r:"2 Corinthians 3:17",b:"2 Corinthians",th:"Freedom"},
+  {t:"So we fix our eyes not on what is seen, but on what is unseen.",r:"2 Corinthians 4:18",b:"2 Corinthians",th:"Faith"},
+  {t:"Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!",r:"2 Corinthians 5:17",b:"2 Corinthians",th:"Transformation"},
+  {t:"God is able to bless you abundantly, so that in all things at all times, having all that you need, you will abound in every good work.",r:"2 Corinthians 9:8",b:"2 Corinthians",th:"Blessing"},
+  {t:"We demolish arguments and every pretension that sets itself up against the knowledge of God.",r:"2 Corinthians 10:5",b:"2 Corinthians",th:"Spiritual Warfare"},
+  {t:"I have learned the secret of being content in any and every situation.",r:"Philippians 4:12",b:"Philippians",th:"Contentment"},
+  {t:"Let the word of Christ dwell in you richly.",r:"Colossians 3:16",b:"Colossians",th:"Scripture"},
+  {t:"Work heartily, as for the Lord and not for men.",r:"Colossians 3:23",b:"Colossians",th:"Service"},
+  {t:"Now to him who is able to do immeasurably more than all we ask or imagine.",r:"Ephesians 3:20",b:"Ephesians",th:"Faith"},
+  {t:"There is one body and one Spirit, just as you were called to one hope when you were called.",r:"Ephesians 4:4",b:"Ephesians",th:"Unity"},
+  {t:"Speak to one another with psalms, hymns, and songs from the Spirit.",r:"Ephesians 5:19",b:"Ephesians",th:"Worship"},
+  {t:"For our struggle is not against flesh and blood, but against the rulers, against the authorities, against the powers of this dark world.",r:"Ephesians 6:12",b:"Ephesians",th:"Spiritual Warfare"},
+  {t:"In addition to all this, take up the shield of faith.",r:"Ephesians 6:16",b:"Ephesians",th:"Faith"},
+  {t:"Humble yourselves before the Lord, and he will lift you up.",r:"James 4:10",b:"James",th:"Humility"},
+  {t:"What is your life? You are a mist that appears for a little while and then vanishes.",r:"James 4:14",b:"James",th:"Life"},
+  {t:"Resist the devil, and he will flee from you. Come near to God and he will come near to you.",r:"James 4:7-8",b:"James",th:"Spiritual Warfare"},
+  {t:"Be alert and of sober mind. Your enemy the devil prowls around like a roaring lion.",r:"1 Peter 5:8",b:"1 Peter",th:"Spiritual Warfare"},
+  {t:"But you are a chosen people, a royal priesthood, a holy nation, God's special possession.",r:"1 Peter 2:9",b:"1 Peter",th:"Identity"},
+  {t:"Through him you believe in God, who raised him from the dead and glorified him.",r:"1 Peter 1:21",b:"1 Peter",th:"Faith"},
+  {t:"Grow in the grace and knowledge of our Lord and Savior Jesus Christ.",r:"2 Peter 3:18",b:"2 Peter",th:"Growth"},
+  {t:"The one who does what is sinful is of the devil, because the devil has been sinning from the beginning.",r:"1 John 3:8",b:"1 John",th:"Holiness"},
+  {t:"Do not love the world or anything in the world.",r:"1 John 2:15",b:"1 John",th:"Holiness"},
+  {t:"For everyone born of God overcomes the world. This is the victory that has overcome the world, even our faith.",r:"1 John 5:4",b:"1 John",th:"Victory"},
+  {t:"Blessed is the one who perseveres under trial because, having stood the test, that person will receive the crown of life.",r:"James 1:12",b:"James",th:"Perseverance"},
+  {t:"Every good and perfect gift is from above, coming down from the Father of the heavenly lights.",r:"James 1:17",b:"James",th:"Blessing"},
+  {t:"Do not repay evil with evil or insult with insult.",r:"1 Peter 3:9",b:"1 Peter",th:"Character"},
+  {t:"For you have been born again, not of perishable seed, but of imperishable, through the living and enduring word of God.",r:"1 Peter 1:23",b:"1 Peter",th:"Salvation"},
+  {t:"He himself bore our sins in his body on the cross, so that we might die to sins and live for righteousness.",r:"1 Peter 2:24",b:"1 Peter",th:"Salvation"},
+  {t:"Bless those who persecute you; bless and do not curse.",r:"Romans 12:14",b:"Romans",th:"Love"},
+  {t:"If you love those who love you, what credit is that to you?",r:"Luke 6:32",b:"Luke",th:"Love"},
+  {t:"For the Son of Man came to seek and to save the lost.",r:"Luke 19:10",b:"Luke",th:"Salvation"},
+  {t:"With man this is impossible, but with God all things are possible.",r:"Matthew 19:26",b:"Matthew",th:"Faith"},
+  {t:"Come to me, all you who are weary and burdened, and I will give you rest.",r:"Matthew 11:28",b:"Matthew",th:"Rest"},
+  {t:"Take my yoke upon you and learn from me, for I am gentle and humble in heart.",r:"Matthew 11:29",b:"Matthew",th:"Rest"},
+  {t:"For the kingdom of God is not a matter of eating and drinking, but of righteousness, peace and joy in the Holy Spirit.",r:"Romans 14:17",b:"Romans",th:"Kingdom"},
+  {t:"The heart is like a wellspring of life; above all else, guard it.",r:"Proverbs 4:23",b:"Proverbs",th:"Wisdom"},
+  {t:"Death and life are in the power of the tongue.",r:"Proverbs 18:21",b:"Proverbs",th:"Words"},
+  {t:"Anxiety weighs down the heart, but a kind word cheers it up.",r:"Proverbs 12:25",b:"Proverbs",th:"Encouragement"},
+  {t:"Better a little with righteousness than much gain with injustice.",r:"Proverbs 16:8",b:"Proverbs",th:"Integrity"},
+  {t:"In their hearts humans plan their course, but the LORD establishes their steps.",r:"Proverbs 16:9",b:"Proverbs",th:"Trust"},
+  {t:"The way of the LORD is a refuge for the blameless.",r:"Proverbs 10:29",b:"Proverbs",th:"Protection"},
+  {t:"A generous person will prosper; whoever refreshes others will be refreshed.",r:"Proverbs 11:25",b:"Proverbs",th:"Generosity"},
+  {t:"Pleasant words are a honeycomb, sweet to the soul and healing to the bones.",r:"Proverbs 16:24",b:"Proverbs",th:"Words"},
+  {t:"The name of the LORD is a fortified tower; the righteous run to it and are safe.",r:"Proverbs 18:10",b:"Proverbs",th:"Protection"},
+  {t:"Do not say, 'Why were the old days better than these?' for it is not wise to ask such questions.",r:"Ecclesiastes 7:10",b:"Ecclesiastes",th:"Wisdom"},
+  {t:"To everything there is a season, and a time for every matter under heaven.",r:"Ecclesiastes 3:1",b:"Ecclesiastes",th:"Life"},
+  {t:"Two are better than one, because they have a good return for their labor.",r:"Ecclesiastes 4:9",b:"Ecclesiastes",th:"Community"},
+  {t:"The fear of the LORD is the beginning of knowledge.",r:"Proverbs 1:7",b:"Proverbs",th:"Wisdom"},
+  {t:"A friend loves at all times, and a brother is born for a time of adversity.",r:"Proverbs 17:17",b:"Proverbs",th:"Friendship"},
+  {t:"He who walks with the wise grows wise.",r:"Proverbs 13:20",b:"Proverbs",th:"Wisdom"},
+  {t:"Whoever conceals their sins does not prosper, but the one who confesses and renounces them finds mercy.",r:"Proverbs 28:13",b:"Proverbs",th:"Repentance"},
+  {t:"The righteous will live by faith.",r:"Romans 1:17",b:"Romans",th:"Faith"},
+  {t:"Let love be genuine. Abhor what is evil; hold fast to what is good.",r:"Romans 12:9",b:"Romans",th:"Character"},
+  {t:"Be devoted to one another in love. Honor one another above yourselves.",r:"Romans 12:10",b:"Romans",th:"Community"},
+  {t:"Rejoice with those who rejoice; mourn with those who mourn.",r:"Romans 12:15",b:"Romans",th:"Compassion"},
+  {t:"If it is possible, as far as it depends on you, live at peace with everyone.",r:"Romans 12:18",b:"Romans",th:"Peace"},
+];
+
+const ALL_VERSES = [...BIBLE_DB, ...EXTRA_VERSES];
+
+/* ============================================================
+   QUIZ DATA
+   ============================================================ */
+const QUIZ_DATA = [
+  {q:"How many books are in the Bible?",opts:["66","72","39","60"],ans:0},
+  {q:"Who was swallowed by a great fish?",opts:["Elijah","Moses","Jonah","Daniel"],ans:2},
+  {q:"In which city was Jesus born?",opts:["Nazareth","Jerusalem","Bethlehem","Jericho"],ans:2},
+  {q:"Who wrote most of the Psalms?",opts:["Moses","Solomon","David","Isaiah"],ans:2},
+  {q:"How many disciples did Jesus have?",opts:["10","12","7","15"],ans:1},
+  {q:"Which book comes first in the New Testament?",opts:["Mark","Luke","Matthew","John"],ans:2},
+  {q:"What was the first miracle of Jesus?",opts:["Walking on water","Healing blind man","Turning water into wine","Feeding 5000"],ans:2},
+  {q:"Who was the first king of Israel?",opts:["David","Saul","Solomon","Samuel"],ans:1},
+  {q:"On which day did God rest from creation?",opts:["Fifth","Sixth","Seventh","Fourth"],ans:2},
+  {q:"What river was Jesus baptized in?",opts:["Nile","Euphrates","Jordan","Tigris"],ans:2},
+  {q:"Who denied Jesus three times?",opts:["John","James","Thomas","Peter"],ans:3},
+  {q:"Which book of the Bible is the longest?",opts:["Genesis","Psalms","Isaiah","Jeremiah"],ans:1},
+  {q:"What language was most of the Old Testament originally written in?",opts:["Greek","Hebrew","Aramaic","Latin"],ans:1},
+  {q:"How many plagues did God send on Egypt?",opts:["7","10","12","9"],ans:1},
+  {q:"Who built the ark?",opts:["Moses","Abraham","Noah","Elijah"],ans:2},
+  {q:"What was the name of Abraham's wife?",opts:["Rachel","Leah","Sarah","Rebekah"],ans:2},
+  {q:"What is the shortest verse in the Bible?",opts:["Amen","Jesus wept","Rejoice","Pray."],ans:1},
+  {q:"Who was the mother of Jesus?",opts:["Martha","Mary","Elizabeth","Ruth"],ans:1},
+  {q:"How many days and nights did Jesus fast in the wilderness?",opts:["30","7","40","14"],ans:2},
+  {q:"What is the last book of the Bible?",opts:["Jude","Hebrews","Revelation","Acts"],ans:2},
+];
+
+const FILL_IN_BLANK = [
+  {verse:"For God so loved the world that he gave his _____ and only Son.",blank:"one",opts:["one","only","beloved","dear"],ans:0,ref:"John 3:16"},
+  {verse:"I can do all things through _____ who strengthens me.",blank:"Christ",opts:["faith","God","Christ","prayer"],ans:2,ref:"Philippians 4:13"},
+  {verse:"The Lord is my _____; I shall not want.",blank:"shepherd",opts:["king","father","shepherd","lord"],ans:2,ref:"Psalm 23:1"},
+  {verse:"Trust in the Lord with all your _____ and lean not on your own understanding.",blank:"heart",opts:["soul","mind","heart","strength"],ans:2,ref:"Proverbs 3:5"},
+  {verse:"Be strong and _____. Do not be afraid.",blank:"courageous",opts:["faithful","courageous","steadfast","joyful"],ans:1,ref:"Joshua 1:9"},
+  {verse:"Your word is a lamp for my _____, a light on my path.",blank:"feet",opts:["eyes","feet","hands","soul"],ans:1,ref:"Psalm 119:105"},
+  {verse:"For it is by _____ you have been saved, through faith.",blank:"grace",opts:["love","mercy","grace","faith"],ans:2,ref:"Ephesians 2:8"},
+  {verse:"The _____ of the LORD is your strength.",blank:"joy",opts:["peace","presence","joy","word"],ans:2,ref:"Nehemiah 8:10"},
+  {verse:"Ask and it will be given to you; _____ and you will find.",blank:"seek",opts:["pray","seek","knock","wait"],ans:1,ref:"Matthew 7:7"},
+  {verse:"Be still and know that I am _____.",blank:"God",opts:["Lord","God","Father","Holy"],ans:1,ref:"Psalm 46:10"},
+];
+
+const WORD_GAME_DATA = [
+  {word:"GRACE",hint:"God's unmerited favor toward sinners"},
+  {word:"FAITH",hint:"Confidence in what we hope for, assurance of what we do not see (Hebrews 11:1)"},
+  {word:"PEACE",hint:"A fruit of the Spirit — God's gift to calm the heart"},
+  {word:"LIGHT",hint:"Jesus said 'I am the _____ of the world' (John 8:12)"},
+  {word:"TRUTH",hint:"'The _____ will set you free' (John 8:32)"},
+  {word:"PRAISE",hint:"What the heavens and earth declare to God's glory"},
+  {word:"MERCY",hint:"God's compassion toward the undeserving"},
+  {word:"CROSS",hint:"The symbol of Christ's sacrifice for our sins"},
+  {word:"BREAD",hint:"Jesus said 'I am the _____ of life' (John 6:35)"},
+  {word:"SHEEP",hint:"'My _____ hear my voice' (John 10:27)"},
+  {word:"ARMOR",hint:"The full _____ of God (Ephesians 6:11)"},
+  {word:"VINE",hint:"'I am the _____; you are the branches' (John 15:5)"},
+  {word:"PRAYER",hint:"Communicate with God through this daily practice"},
+  {word:"PSALM",hint:"A holy song or poem — there are 150 of these in the Bible"},
+  {word:"HOLY",hint:"God is _____, _____, _____, says Revelation 4:8"},
+];
+
+/* ============================================================
+   THEME DATA
+   ============================================================ */
+const THEMES = ["All", "Love", "Faith", "Hope", "Peace", "Strength", "Wisdom", "Prayer", "Joy", "Grace", "Forgiveness", "Courage", "Protection", "Praise", "Identity", "Salvation", "Healing", "Perseverance", "Worship", "Holy Spirit"];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let xp = parseInt(localStorage.getItem('xp') || '0');
+let level = parseInt(localStorage.getItem('level') || '1');
+const LEVEL_NAMES = ["Seeker","Disciple","Believer","Faithful","Servant","Warrior","Apostle","Prophet","Elder","Champion"];
+const XP_THRESHOLDS = [0,200,500,1000,2000,3500,5500,8000,11000,15000];
+const BADGES = [
+  {icon:"🙏",label:"First Prayer",xp:0},
+  {icon:"📖",label:"First Verse",xp:0},
+  {icon:"🎮",label:"First Game",xp:50},
+  {icon:"🏆",label:"Quiz Master",xp:200},
+  {icon:"✍️",label:"Journaler",xp:0},
+  {icon:"⭐",label:"Collector",xp:0},
+  {icon:"🌟",label:"Devoted",xp:500},
+  {icon:"🔥",label:"On Fire",xp:1000},
+  {icon:"✝️",label:"Faithful",xp:2000},
+  {icon:"👑",label:"Champion",xp:5000},
+];
+let earnedBadges = JSON.parse(localStorage.getItem('badges') || '[]');
+let currentMood = '';
+let currentWordGame = null;
+let quizIdx = 0, quizScore = 0;
+let fillIdx = 0, fillScore = 0;
+let activeVerseForModal = null;
+
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    loader.style.opacity = '0';
+    setTimeout(() => loader.style.display = 'none', 800);
+  }, 2000);
+
+  initStars();
+  startClock();
+  initVOD();
+  initVerseExplorer();
+  initRewards();
+  initTools();
+  initScrollReveal();
+  startTicker();
+  navScroll();
+
+  // Daily XP award
+  const today = new Date().toDateString();
+  if (localStorage.getItem('last_visit') !== today) {
+    localStorage.setItem('last_visit', today);
+    awardXP(10, '🌅 Daily Visit', '+10 XP for opening the Word today!');
+  }
+});
+
+/* ============================================================
+   STARS
+   ============================================================ */
+function initStars() {
+  const sf = document.getElementById('starfield');
+  for (let i = 0; i < 180; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${Math.random()*4}s`;
+    sf.appendChild(s);
+  }
+}
+
+/* ============================================================
+   CLOCK
+   ============================================================ */
+function startClock() {
+  function tick() {
+    const now = new Date();
+    const utc = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}`;
+    const dateStr = now.toUTCString().split(' ').slice(0,4).join(' ');
+    document.getElementById('utc-clock').textContent = utc;
+    document.getElementById('nav-clock').textContent = `✝ ${utc} UTC`;
+    document.getElementById('utc-date').textContent = dateStr;
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(),0,0))/(1000*60*60*24));
+    document.getElementById('verse-num').textContent = dayOfYear;
+  }
+  tick(); setInterval(tick, 1000);
+}
+function pad(n){return String(n).padStart(2,'0');}
+
+/* ============================================================
+   VERSE OF THE DAY
+   ============================================================ */
+function initVOD() {
+  const today = new Date().toDateString();
+  const idx = Math.floor((new Date() - new Date(new Date().getFullYear(),0,0))/(1000*60*60*24)) % ALL_VERSES.length;
+  setVOD(ALL_VERSES[idx]);
+  document.getElementById('vod-date').textContent = today;
+  initThemeTags();
+}
+function setVOD(v) {
+  const el = document.getElementById('vod-text');
+  const ref = document.getElementById('vod-ref');
+  el.style.opacity = '0';
+  setTimeout(() => { el.textContent = `"${v.t}"`; ref.textContent = `— ${v.r}`; el.style.opacity = '1'; }, 300);
+}
+function refreshVOD() {
+  const v = ALL_VERSES[Math.floor(Math.random()*ALL_VERSES.length)];
+  setVOD(v);
+  awardXP(5,'📖 Explored a Verse','+5 XP for reading the Word!');
+}
+function shareCurrentVOD() {
+  const t = document.getElementById('vod-text').innerText;
+  const r = document.getElementById('vod-ref').innerText;
+  if (navigator.share) navigator.share({title:'The Living Word',text:`${t} ${r}`});
+  else { navigator.clipboard.writeText(`${t} ${r}`); showToast('Copied!','Verse copied to clipboard.'); }
+}
+function speakVerse() {
+  const t = document.getElementById('vod-text').innerText;
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(t);
+    u.rate = 0.85; u.pitch = 0.9;
+    window.speechSynthesis.speak(u);
+    showToast('🔊 Reading','Verse is being read aloud...');
+  }
+}
+function initThemeTags() {
+  const c = document.getElementById('theme-tags');
+  c.innerHTML = '';
+  const uniqueThemes = [...new Set(ALL_VERSES.map(v=>v.th))].slice(0,16);
+  uniqueThemes.forEach(th => {
+    const btn = document.createElement('button');
+    btn.className = 'dev-tag'; btn.textContent = th;
+    btn.onclick = () => { c.querySelectorAll('.dev-tag').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); showRandomThemeVerse(th); };
+    c.appendChild(btn);
+  });
+}
+function showRandomThemeVerse(th) {
+  const list = ALL_VERSES.filter(v=>v.th===th);
+  if (list.length) setVOD(list[Math.floor(Math.random()*list.length)]);
+}
+
+/* ============================================================
+   VERSE EXPLORER
+   ============================================================ */
+function initVerseExplorer() {
+  const books = [...new Set(ALL_VERSES.map(v=>v.b))].sort();
+  const themes = [...new Set(ALL_VERSES.map(v=>v.th))].sort();
+  const bf = document.getElementById('book-filter');
+  const tf = document.getElementById('theme-filter');
+  books.forEach(b=>{ const o=document.createElement('option'); o.value=b; o.textContent=b; bf.appendChild(o); });
+  themes.forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; tf.appendChild(o); });
+  renderVerses(ALL_VERSES);
+}
+function filterVerses() {
+  const q = document.getElementById('verse-search').value.toLowerCase();
+  const book = document.getElementById('book-filter').value;
+  const theme = document.getElementById('theme-filter').value;
+  const filtered = ALL_VERSES.filter(v => {
+    const matchQ = !q || v.t.toLowerCase().includes(q) || v.r.toLowerCase().includes(q);
+    const matchB = !book || v.b === book;
+    const matchT = !theme || v.th === theme;
+    return matchQ && matchB && matchT;
+  });
+  renderVerses(filtered);
+}
+function renderVerses(list) {
+  const grid = document.getElementById('verses-grid');
+  document.getElementById('verse-count').textContent = `Showing ${list.length} of ${ALL_VERSES.length} verses`;
+  grid.innerHTML = '';
+  list.slice(0,80).forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'verse-card';
+    card.innerHTML = `<div class="verse-card-ref">${v.r}</div><div class="verse-card-text">"${v.t}"</div><span class="verse-card-tag">${v.th}</span>`;
+    card.onclick = () => { openVerseModal(v.t, v.r); awardXP(2,'📖 Read a Verse','+2 XP!'); };
+    grid.appendChild(card);
+  });
+  if (list.length > 80) {
+    const more = document.createElement('div');
+    more.style.cssText='grid-column:1/-1;text-align:center;color:var(--text-muted);font-size:0.8rem;padding:1rem;';
+    more.textContent = `... and ${list.length-80} more. Refine your search to see them.`;
+    grid.appendChild(more);
+  }
+}
+
+/* ============================================================
+   AI CHAT
+   ============================================================ */
+async function sendChat() {
+  const inp = document.getElementById('chat-input');
+  const msg = inp.value.trim(); if (!msg) return;
+  inp.value = '';
+  addMsg(msg, 'user');
+  const typing = document.getElementById('typing');
+  typing.style.display = 'flex';
+  scrollChat();
+
+  // Find relevant verse
+  const q = msg.toLowerCase();
+  const relevant = ALL_VERSES.find(v => v.t.toLowerCase().includes(q) || v.th.toLowerCase().includes(q) || v.r.toLowerCase().includes(q));
+  const verseContext = relevant ? `Relevant verse: "${relevant.t}" — ${relevant.r}` : '';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:`You are a warm, faithful Christian AI scripture guide on a devotional website called "The Living Word", created by Brother David Roy, an 18-year-old Christian creator from Bangladesh who loves God deeply. Respond with biblical wisdom, compassion, and encouragement. Keep responses concise (2-4 sentences). Always include a Bible verse reference when relevant. Speak like a caring pastor or mentor. ${verseContext}`,
+        messages:[{role:'user',content:msg}]
+      })
+    });
+    const data = await res.json();
+    typing.style.display = 'none';
+    const reply = data.content?.[0]?.text || "I'm here to walk with you in faith. Let's explore the Word together.";
+    addMsg(reply, 'ai');
+    awardXP(5,'🤖 Used AI Guide','+5 XP for seeking wisdom!');
+  } catch(e) {
+    typing.style.display = 'none';
+    // Fallback response
+    const fallbacks = [
+      `"${ALL_VERSES[Math.floor(Math.random()*ALL_VERSES.length)].t}" — ${ALL_VERSES[Math.floor(Math.random()*ALL_VERSES.length)].r}\n\nGod's Word has an answer for every need of your heart. 🕊️`,
+      "The LORD is near to all who call on Him in truth. Keep seeking, and you will find! 🙏",
+      "Be encouraged — God's love for you is unfailing and eternal. He sees your heart.",
+    ];
+    addMsg(fallbacks[Math.floor(Math.random()*fallbacks.length)], 'ai');
+  }
+}
+function addMsg(text, type) {
+  const c = document.getElementById('chat-messages');
+  const d = document.createElement('div');
+  d.className = `msg msg-${type}`;
+  d.textContent = text;
+  c.appendChild(d);
+  scrollChat();
+}
+function scrollChat() { const c=document.getElementById('chat-messages'); c.scrollTop=c.scrollHeight; }
+function handleChatKey(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
+
+/* ============================================================
+   TOOLS
+   ============================================================ */
+function initTools() { loadSaved(); renderFavourites(); }
+function saveConfession() {
+  const v = document.getElementById('confess-input').value.trim(); if (!v) return;
+  const data = JSON.parse(localStorage.getItem('confessions')||'[]');
+  data.unshift({text:v,date:new Date().toLocaleDateString()});
+  localStorage.setItem('confessions', JSON.stringify(data.slice(0,50)));
+  document.getElementById('confess-input').value = '';
+  loadSaved(); awardXP(15,'🕊️ Confession','You confessed your heart to God. +15 XP');
+  showToast('🕊️ Grace Received','Your confession has been heard by God.');
+  checkBadge(4);
+}
+function savePrayer() {
+  const v = document.getElementById('prayer-input').value.trim(); if (!v) return;
+  const data = JSON.parse(localStorage.getItem('prayers')||'[]');
+  data.unshift({text:v,mood:currentMood,date:new Date().toLocaleDateString()});
+  localStorage.setItem('prayers', JSON.stringify(data.slice(0,100)));
+  document.getElementById('prayer-input').value = '';
+  loadSaved(); awardXP(10,'🙏 Prayer Saved','+10 XP for your prayer!');
+  checkBadge(0);
+}
+function saveNote() {
+  const t = document.getElementById('note-title').value.trim();
+  const v = document.getElementById('note-input').value.trim(); if (!v) return;
+  const data = JSON.parse(localStorage.getItem('notes')||'[]');
+  data.unshift({title:t||'Untitled',text:v,date:new Date().toLocaleDateString()});
+  localStorage.setItem('notes', JSON.stringify(data.slice(0,100)));
+  document.getElementById('note-title').value=''; document.getElementById('note-input').value='';
+  loadSaved(); awardXP(8,'📝 Note Saved','+8 XP for your devotional note!');
+  checkBadge(3);
+}
+function loadSaved() {
+  renderList('confessions','confess-list',false);
+  renderList('prayers','prayer-list',true);
+  renderList('notes','notes-list',true);
+}
+function renderList(key, elId, showTitle) {
+  const data = JSON.parse(localStorage.getItem(key)||'[]');
+  const el = document.getElementById(elId); if (!el) return;
+  el.innerHTML = '';
+  if (!data.length) { el.innerHTML='<p style="font-size:0.78rem;color:var(--text-muted)">Nothing saved yet.</p>'; return; }
+  data.slice(0,5).forEach((item,i) => {
+    const d = document.createElement('div'); d.className='saved-item';
+    d.innerHTML = `<div class="saved-item-date">${item.date}${item.mood?' · '+item.mood:''}</div>${showTitle&&item.title?'<strong style="font-size:0.8rem;color:var(--gold-light)">'+item.title+'</strong><br>':''}<span>${item.text.slice(0,120)}${item.text.length>120?'...':''}</span><button class="saved-item-del" onclick="deleteItem('${key}',${i})">✕</button>`;
+    el.appendChild(d);
+  });
+}
+function deleteItem(key, idx) {
+  const data = JSON.parse(localStorage.getItem(key)||'[]');
+  data.splice(idx,1);
+  localStorage.setItem(key, JSON.stringify(data));
+  loadSaved();
+}
+function selectMood(btn, mood) {
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected'); currentMood = mood;
+}
+
+/* ============================================================
+   FAVOURITES
+   ============================================================ */
+function addToFavourites() {
+  const text = document.getElementById('vm-text').textContent;
+  const ref = document.getElementById('vm-ref').textContent;
+  const favs = JSON.parse(localStorage.getItem('favs')||'[]');
+  if (favs.find(f=>f.r===ref)) { showToast('⭐ Already Saved','This verse is already in your favourites!'); return; }
+  favs.push({t:text,r:ref});
+  localStorage.setItem('favs',JSON.stringify(favs));
+  renderFavourites(); awardXP(3,'⭐ Favourite Added','+3 XP!'); checkBadge(5);
+  showToast('⭐ Verse Saved','Added to your favourites!');
+}
+function renderFavourites() {
+  const el = document.getElementById('favourites-list'); if (!el) return;
+  const favs = JSON.parse(localStorage.getItem('favs')||'[]');
+  if (!favs.length) { el.innerHTML='<p style="font-size:0.8rem;color:var(--text-muted)">No favourites yet.</p>'; return; }
+  el.innerHTML='';
+  favs.slice(-10).reverse().forEach((f,i) => {
+    const d=document.createElement('div'); d.className='saved-item';
+    d.innerHTML=`<div class="verse-card-ref" style="font-size:0.7rem">${f.r}</div><em style="font-size:0.83rem">${f.t.slice(0,100)}...</em><button class="saved-item-del" onclick="removeFav(${i})">✕</button>`;
+    el.appendChild(d);
+  });
+}
+function removeFav(i) {
+  const favs = JSON.parse(localStorage.getItem('favs')||'[]');
+  favs.splice(i,1); localStorage.setItem('favs',JSON.stringify(favs)); renderFavourites();
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+function openVerseModal(text, ref) {
+  document.getElementById('vm-text').textContent = text;
+  document.getElementById('vm-ref').textContent = ref;
+  document.getElementById('verse-modal').classList.add('open');
+  checkBadge(1);
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function copyVerse() {
+  const t=document.getElementById('vm-text').textContent;
+  const r=document.getElementById('vm-ref').textContent;
+  navigator.clipboard.writeText(`${t} ${r}`);
+  showToast('📋 Copied','Verse copied to clipboard!');
+}
+function shareVerse() {
+  const t=document.getElementById('vm-text').textContent;
+  const r=document.getElementById('vm-ref').textContent;
+  if (navigator.share) navigator.share({title:'Bible Verse',text:`${t} ${r}`});
+  else copyVerse();
+}
+
+/* ============================================================
+   GAMES
+   ============================================================ */
+function startWordGame() {
+  checkBadge(2);
+  document.getElementById('game-select').style.opacity='0.3';
+  const game = document.getElementById('word-game');
+  game.classList.add('active');
+  const pick = WORD_GAME_DATA[Math.floor(Math.random()*WORD_GAME_DATA.length)];
+  currentWordGame = { word: pick.word, guessed: [], lives: 6, hint: pick.hint };
+  document.getElementById('wg-hint').textContent = `Hint: ${pick.hint}`;
+  renderWordGame();
+  buildKeyboard();
+}
+function renderWordGame() {
+  const {word,guessed,lives} = currentWordGame;
+  const display = document.getElementById('word-display');
+  display.innerHTML = '';
+  word.split('').forEach(ch => {
+    const el = document.createElement('div');
+    el.className = 'word-letter' + (guessed.includes(ch) ? ' revealed' : '');
+    el.textContent = guessed.includes(ch) ? ch : '';
+    display.appendChild(el);
+  });
+  const wrong = currentWordGame.wrongLetters||[];
+  document.getElementById('wrong-letters').textContent = `Wrong: ${wrong.join(' ')}`;
+  document.getElementById('wg-lives').textContent = `Lives: ${'❤️'.repeat(lives)}${'🖤'.repeat(6-lives)}`;
+
+  const won = word.split('').every(c=>guessed.includes(c));
+  const lost = lives <= 0;
+  if (won) { setTimeout(()=>endWordGame(true),300); }
+  if (lost) { setTimeout(()=>endWordGame(false),300); }
+}
+function buildKeyboard() {
+  const kb = document.getElementById('game-keyboard'); kb.innerHTML='';
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(ch => {
+    const btn = document.createElement('button'); btn.className='key-btn'; btn.textContent=ch;
+    btn.onclick = () => guessLetter(ch, btn);
+    kb.appendChild(btn);
+  });
+}
+function guessLetter(ch, btn) {
+  if (!currentWordGame || currentWordGame.guessed.includes(ch)) return;
+  btn.disabled = true;
+  currentWordGame.guessed.push(ch);
+  if (!currentWordGame.word.includes(ch)) {
+    currentWordGame.lives--;
+    currentWordGame.wrongLetters = (currentWordGame.wrongLetters||[]).concat(ch);
+    btn.style.borderColor='var(--rose)'; btn.style.color='var(--rose)';
+  } else {
+    btn.style.borderColor='var(--gold)'; btn.style.color='var(--gold)';
+  }
+  renderWordGame();
+}
+function endWordGame(won) {
+  const v = ALL_VERSES[Math.floor(Math.random()*ALL_VERSES.length)];
+  if (won) {
+    awardXP(50,'🎮 Word Game Won','You guessed the Bible word! +50 XP');
+    showRewardModal('🎉 You got it!','You guessed the Bible word!',v);
+  } else {
+    showRewardModal('🙏 Keep Trying','The word was: '+currentWordGame.word+'. Here is a verse of encouragement:',v);
+  }
+  setTimeout(()=>{ document.getElementById('game-select').style.opacity='1'; closeGame('word-game'); },3000);
+}
+function closeGame(id) {
+  document.getElementById(id).classList.remove('active');
+  document.getElementById('game-select').style.opacity='1';
+}
+
+/* QUIZ */
+function startQuiz() {
+  checkBadge(2);
+  document.getElementById('game-select').style.opacity='0.3';
+  quizIdx=0; quizScore=0;
+  document.getElementById('quiz-game').classList.add('active');
+  showQuestion();
+}
+function showQuestion() {
+  if (quizIdx >= QUIZ_DATA.length) { endQuiz(); return; }
+  const q = QUIZ_DATA[quizIdx];
+  document.getElementById('quiz-score').textContent = `Score: ${quizScore} / ${quizIdx}`;
+  document.getElementById('quiz-question').textContent = q.q;
+  document.getElementById('quiz-next').style.display='none';
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button'); btn.className='quiz-opt'; btn.textContent=opt;
+    btn.onclick=()=>answerQuiz(i,q.ans,btn);
+    opts.appendChild(btn);
+  });
+}
+function answerQuiz(chosen, correct, btn) {
+  const btns=document.querySelectorAll('.quiz-opt');
+  btns.forEach((b,i)=>{ b.disabled=true; if(i===correct) b.classList.add('correct'); else if(i===chosen&&chosen!==correct) b.classList.add('wrong-ans'); });
+  if (chosen===correct) { quizScore++; awardXP(30,'📜 Quiz Correct','+30 XP!'); }
+  quizIdx++; document.getElementById('quiz-next').style.display='inline-block';
+}
+function nextQuestion() { showQuestion(); }
+function endQuiz() {
+  const v = ALL_VERSES[Math.floor(Math.random()*ALL_VERSES.length)];
+  showRewardModal('📜 Quiz Complete!',`You scored ${quizScore}/${QUIZ_DATA.length}! Here is your Scripture reward:`,v);
+  setTimeout(()=>{ document.getElementById('game-select').style.opacity='1'; closeGame('quiz-game'); },3000);
+}
+
+/* FILL IN BLANK */
+function startFillInBlank() {
+  checkBadge(2);
+  document.getElementById('game-select').style.opacity='0.3';
+  fillIdx=0; fillScore=0;
+  document.getElementById('fill-game').classList.add('active');
+  showFill();
+}
+function showFill() {
+  if (fillIdx>=FILL_IN_BLANK.length) { endFill(); return; }
+  const q=FILL_IN_BLANK[fillIdx];
+  document.getElementById('fill-score').textContent=`Score: ${fillScore} / ${fillIdx}`;
+  document.getElementById('fill-question').textContent=`Fill in the blank: "${q.verse}" (${q.ref})`;
+  document.getElementById('fill-next').style.display='none';
+  const opts=document.getElementById('fill-options'); opts.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button'); btn.className='quiz-opt'; btn.textContent=opt;
+    btn.onclick=()=>answerFill(i,q.ans,btn);
+    opts.appendChild(btn);
+  });
+}
+function answerFill(chosen,correct,btn){
+  const btns=document.querySelectorAll('#fill-options .quiz-opt');
+  btns.forEach((b,i)=>{ b.disabled=true; if(i===correct) b.classList.add('correct'); else if(i===chosen&&chosen!==correct) b.classList.add('wrong-ans'); });
+  if(chosen===correct){ fillScore++; awardXP(40,'✏️ Fill Correct','+40 XP!'); }
+  fillIdx++; document.getElementById('fill-next').style.display='inline-block';
+}
+function nextFill(){ showFill(); }
+function endFill(){
+  const v=ALL_VERSES[Math.floor(Math.random()*ALL_VERSES.length)];
+  showRewardModal('✏️ Round Complete!',`You scored ${fillScore}/${FILL_IN_BLANK.length}! Scripture reward:`,v);
+  setTimeout(()=>{ document.getElementById('game-select').style.opacity='1'; closeGame('fill-game'); },3000);
+}
+
+/* ============================================================
+   REWARDS
+   ============================================================ */
+function initRewards() {
+  renderBadges(); updateXPBar();
+}
+function awardXP(amount, title, msg) {
+  xp += amount;
+  localStorage.setItem('xp',xp);
+  const newLevel = XP_THRESHOLDS.findIndex((t,i)=>xp<(XP_THRESHOLDS[i+1]||99999));
+  if (newLevel !== level-1 && newLevel > 0) {
+    level = newLevel+1;
+    localStorage.setItem('level',level);
+    showToast('⬆️ Level Up!', `You are now: ${LEVEL_NAMES[level-1]}`);
+  }
+  updateXPBar();
+  showToast(title, msg);
+}
+function updateXPBar() {
+  const threshold = XP_THRESHOLDS[level] || 99999;
+  const prev = XP_THRESHOLDS[level-1] || 0;
+  const pct = Math.min(100, ((xp-prev)/(threshold-prev))*100);
+  document.getElementById('xp-bar').style.width = pct+'%';
+  document.getElementById('xp-current').textContent = xp;
+  document.getElementById('xp-next').textContent = threshold;
+  document.getElementById('xp-total').textContent = xp;
+  document.getElementById('level-num').textContent = level;
+  document.getElementById('level-name').textContent = LEVEL_NAMES[Math.min(level-1,LEVEL_NAMES.length-1)];
+}
+function renderBadges() {
+  const grid=document.getElementById('badges-grid'); grid.innerHTML='';
+  BADGES.forEach((b,i)=>{
+    const el=document.createElement('div');
+    el.className='badge'+(earnedBadges.includes(i)?' earned':'');
+    el.innerHTML=`${b.icon}<div class="badge-tooltip">${b.label}</div>`;
+    grid.appendChild(el);
+  });
+}
+function checkBadge(idx) {
+  if (!earnedBadges.includes(idx)) {
+    earnedBadges.push(idx);
+    localStorage.setItem('badges',JSON.stringify(earnedBadges));
+    renderBadges();
+    showToast('🏅 Badge Earned!',`You unlocked: ${BADGES[idx].label}`);
+  }
+}
+function showRewardModal(title, desc, verse) {
+  document.getElementById('reward-title').textContent = title;
+  document.getElementById('reward-desc').textContent = desc;
+  document.getElementById('reward-verse-text').textContent = `"${verse.t}"`;
+  document.getElementById('reward-verse-ref').textContent = `— ${verse.r}`;
+  document.getElementById('reward-emoji').textContent = ['🎉','🏆','✝️','🌟','🙏'][Math.floor(Math.random()*5)];
+  document.getElementById('reward-modal').classList.add('open');
+}
+
+/* ============================================================
+   MEDIA / SEARCH
+   ============================================================ */
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function searchYouTube() {
+  const q = document.getElementById('yt-search').value.trim(); if (!q) return;
+  const res = document.getElementById('yt-results');
+  res.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">
+    <p>🎵 To enable live YouTube search, add your <strong style="color:var(--gold)">YouTube Data API v3</strong> key to this project.</p>
+    <p style="margin-top:0.5rem;font-size:0.78rem;">Go to <a href="https://console.developers.google.com" target="_blank" style="color:var(--gold)">Google Cloud Console</a>, enable YouTube Data API v3, get your key and replace <code style="color:var(--gold)">YOUR_YOUTUBE_API_KEY</code> in the JS.</p>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-light)">Searching for: <em style="color:var(--gold-light)">${q}</em></p>
+    <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}" target="_blank" class="btn-sm" style="display:inline-block;margin-top:1rem">Open YouTube Search →</a>
+  </div>`;
+  // LIVE INTEGRATION POINT: replace above with actual YouTube API call
+  // const API_KEY = 'YOUR_YOUTUBE_API_KEY';
+  // fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=video&maxResults=6&key=${API_KEY}`)
+}
+function doGoogleSearch() {
+  const q = document.getElementById('google-search').value.trim(); if (!q) return;
+  const res = document.getElementById('search-results');
+  // Simulate results / provide direct link
+  const suggestions = ALL_VERSES.filter(v=>v.t.toLowerCase().includes(q.toLowerCase())||v.th.toLowerCase().includes(q.toLowerCase())).slice(0,5);
+  let html = `<div class="search-results-list">`;
+  if (suggestions.length) {
+    html += `<div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.5rem;">📖 Bible verses matching "${q}":</div>`;
+    suggestions.forEach(v=>{
+      html+=`<div class="search-result-item" onclick="openVerseModal('${v.t.replace(/'/g,"\\'")}','${v.r}')"><div class="sr-title">${v.r}</div><div class="sr-snippet" style="font-style:italic">"${v.t.slice(0,120)}..."</div></div>`;
+    });
+  }
+  html+=`<a href="https://www.google.com/search?q=${encodeURIComponent(q+' Bible Christian')}" target="_blank" class="btn-outline" style="display:inline-block;margin-top:1rem">Search Google for "${q}" →</a>`;
+  html+=`</div>`;
+  res.innerHTML = html;
+}
+async function lookupBibleRef() {
+  const ref = document.getElementById('bible-ref').value.trim(); if (!ref) return;
+  const el = document.getElementById('bible-api-result');
+  el.innerHTML = '<div style="color:var(--text-muted);padding:1rem;">🔍 Looking up verse...</div>';
+  // Search local database first
+  const found = ALL_VERSES.find(v=>v.r.toLowerCase()===ref.toLowerCase()||v.r.toLowerCase().startsWith(ref.toLowerCase()));
+  if (found) {
+    el.innerHTML = `<div class="reward-verse-box"><div class="reward-verse-text">"${found.t}"</div><div class="reward-verse-ref">— ${found.r}</div></div>`;
+  } else {
+    el.innerHTML = `<div style="padding:1rem;">
+      <p style="color:var(--text-muted);margin-bottom:0.8rem;">Verse not found in local cache. Try these:</p>
+      <a href="https://www.biblegateway.com/passage/?search=${encodeURIComponent(ref)}&version=NIV" target="_blank" class="btn-sm" style="display:inline-block;margin-right:0.5rem">BibleGateway →</a>
+      <a href="https://www.bible.com/search/bible?q=${encodeURIComponent(ref)}" target="_blank" class="btn-sm" style="display:inline-block">YouVersion →</a>
+    </div>`;
+  }
+}
+
+/* ============================================================
+   TICKER
+   ============================================================ */
+function startTicker() {
+  const verses = ALL_VERSES.slice(0,20).map(v=>`✦ "${v.t.slice(0,60)}..." — ${v.r}`).join('   ');
+  document.getElementById('scripture-ticker').textContent = verses;
+}
+
+/* ============================================================
+   NAV + SCROLL
+   ============================================================ */
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+function navScroll() {
+  window.addEventListener('scroll', ()=>{
+    if (window.scrollY>60) document.getElementById('main-nav').classList.add('scrolled');
+    else document.getElementById('main-nav').classList.remove('scrolled');
+  });
+}
+function initScrollReveal() {
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimer;
+function showToast(title, msg) {
+  clearTimeout(toastTimer);
+  document.getElementById('toast-title').textContent = title;
+  document.getElementById('toast-msg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+/* Close modals on overlay click */
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{
+  if(e.target===o) o.classList.remove('open');
+}));
+</script>
+</body>
+</html>
